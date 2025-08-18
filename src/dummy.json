@@ -1,0 +1,35 @@
+[
+  {
+    "id": 1,
+    "date": "2023-10-27",
+    "type": "circuit",
+    "course": "ワリオスタジアム",
+    "from": null,
+    "rank": 3,
+    "rateBefore": 10500,
+    "rateChange": 20,
+    "rateAfter": 10520
+  },
+  {
+    "id": 2,
+    "date": "2023-10-28",
+    "type": "road",
+    "course": "ヨッシーサーキット",
+    "from": "マリオサーキット",
+    "rank": 5,
+    "rateBefore": 10520,
+    "rateChange": -15,
+    "rateAfter": 10505
+  },
+  {
+    "id": 3,
+    "date": "2023-10-29",
+    "type": "circuit",
+    "course": "レインボーロード",
+    "from": null,
+    "rank": 1,
+    "rateBefore": 10505,
+    "rateChange": 45,
+    "rateAfter": 10550
+  }
+]
