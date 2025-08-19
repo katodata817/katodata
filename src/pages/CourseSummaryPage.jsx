@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -305,6 +305,17 @@ const CourseSummaryPage = () => {
 
   const [order, setOrder] = useState(initialOrder);
   const [orderBy, setOrderBy] = useState("all.avgRateChange");
+
+  // ↓↓↓【重要】searchParamsの変更を監視するuseEffectを追加 ↓↓↓
+  useEffect(() => {
+    // URLの?order=...の値が変わったら、ソート順のstateを更新する
+    const newOrder = searchParams.get("order") === "asc" ? "asc" : "desc";
+    setOrder(newOrder);
+    // ソートキーも、デフォルトの'all.avgRateChange'に戻す
+    setOrderBy("all.avgRateChange");
+
+    window.scrollTo(0, 0);
+  }, [searchParams]); // searchParamsが変わるたびに、この中が実行される
 
   const courseSummaryData = useMemo(() => summarizeByCourse(raceData), []);
 
