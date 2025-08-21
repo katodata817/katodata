@@ -105,21 +105,6 @@ const DashboardLayout = () => {
     [courseSummary]
   );
 
-  const typeDistribution = useMemo(() => {
-    const counts = raceData.reduce(
-      (acc, race) => {
-        const typeKey = race.type === "周回" ? "circuit" : "road";
-        acc[typeKey]++;
-        return acc;
-      },
-      { circuit: 0, road: 0 }
-    );
-    return [
-      { name: "周回", value: counts.circuit },
-      { name: "道", value: counts.road },
-    ];
-  }, []);
-
   const PIE_COLORS = ["#0088FE", "#FF8042"];
 
   return (
@@ -140,17 +125,35 @@ const DashboardLayout = () => {
               >
                 <Grid container spacing={8} alignItems="top">
                   <Grid size={6}>
-                    <Typography variant="subtitle1" color="info.main">
-                      現在レート
-                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mb: 1,
+                      }}
+                    >
+                      <Typography variant="subtitle1" color="info.main">
+                        現在レート
+                      </Typography>
+                    </Box>
                     <Typography variant="h4" component="p">
                       {currentRate}
                     </Typography>
                   </Grid>
                   <Grid size={6}>
-                    <Typography variant="subtitle1" color="info.main">
-                      最高レート
-                    </Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mb: 1,
+                      }}
+                    >
+                      <Typography variant="subtitle1" color="info.main">
+                        最高レート
+                      </Typography>
+                    </Box>
                     <Typography variant="h4" component="p">
                       {peakRateData?.rateAfter}
                     </Typography>
