@@ -92,7 +92,7 @@ function DailyRow({ day, open, setOpen }) {
               <Grid container spacing={0}>
                 <Grid size={{ xs: 0, md: 1.0 }} />
                 <Grid
-                  size={{ xs: 6, md: 5.5 }}
+                  size={{ xs: 12, md: 5.5 }}
                   spacing={0}
                   borderLeft={5}
                   borderColor={"info.main"}
@@ -100,7 +100,7 @@ function DailyRow({ day, open, setOpen }) {
                   <RaceTable races={splitRaces.left} />
                 </Grid>
                 <Grid
-                  size={{ xs: 6, md: 5.5 }}
+                  size={{ xs: 12, md: 5.5 }}
                   spacing={0}
                   borderLeft={5}
                   borderColor={"info.main"}
