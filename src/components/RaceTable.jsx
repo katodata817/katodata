@@ -106,8 +106,14 @@ const RaceTable = ({ races }) => {
                   align="right"
                   sx={{
                     fontSize: "1.0rem",
+                    // 順位が3位以内なら、fontWeightを'bold'（太字）に設定
+                    fontWeight: race.rank === 1 ? "bold" : "normal",
+                    // 1位なら、さらに色を金色っぽくして特別感を出す（おまけ）
+                    color: race.rank <= 3 ? "info.main" : "inherit",
                   }}
                 >
+                  {/* 順位が1位なら、王冠の絵文字を追加 */}
+                  {race.rank === 1 ? "👑 " : ""}
                   {race.rank}位
                 </TableCell>
                 <TableCell
