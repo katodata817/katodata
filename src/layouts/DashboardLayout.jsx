@@ -15,10 +15,15 @@ import { Link as RouterLink } from "react-router-dom";
 import raceData from "../dummyRaces.json";
 import { summarizeByCourse } from "../utils/utils";
 import RateChange from "../components/RateChange";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import StarsIcon from "@mui/icons-material/Stars";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
 const SummaryCard = ({ title, value, subValue }) => (
   <Paper sx={{ p: 2, height: "100%" }}>
@@ -100,23 +105,65 @@ const DashboardLayout = () => {
     [courseSummary]
   );
 
+  const typeDistribution = useMemo(() => {
+    const counts = raceData.reduce(
+      (acc, race) => {
+        const typeKey = race.type === "周回" ? "circuit" : "road";
+        acc[typeKey]++;
+        return acc;
+      },
+      { circuit: 0, road: 0 }
+    );
+    return [
+      { name: "周回", value: counts.circuit },
+      { name: "道", value: counts.road },
+    ];
+  }, []);
+
+  const PIE_COLORS = ["#0088FE", "#FF8042"];
+
   return (
     <Grid container spacing={3}>
       {/* 左カラム (常に表示される) */}
       <Grid size={{ xs: 12, md: 2.5 }}>
         <Grid container spacing={3} direction="column">
-          <Grid>
-            <SummaryCard title="現在レート" value={currentRate} />
+          {/* ↓↓↓【変更点1】現在/最高レートを1枚に統合 ↓↓↓ */}
+          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
+            <Paper sx={{ p: 2, height: "100%" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 0,
+                }}
+              >
+                <Grid container spacing={8} alignItems="top">
+                  <Grid size={6}>
+                    <Typography variant="subtitle1" color="info.main">
+                      現在レート
+                    </Typography>
+                    <Typography variant="h4" component="p">
+                      {currentRate}
+                    </Typography>
+                  </Grid>
+                  <Grid size={6}>
+                    <Typography variant="subtitle1" color="info.main">
+                      最高レート
+                    </Typography>
+                    <Typography variant="h4" component="p">
+                      {peakRateData?.rateAfter}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {peakRateData ? `${peakRateData.date}` : ""}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Paper>
           </Grid>
 
-          <Grid>
-            <SummaryCard
-              title="最高レート"
-              value={peakRateData?.rateAfter}
-              subValue={peakRateData ? `${peakRateData.date}` : ""}
-            />
-          </Grid>
-          <Grid>
+          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
             <SummaryCard
               title="総レース数"
               value={`${raceData.length} 戦`}
@@ -126,7 +173,7 @@ const DashboardLayout = () => {
             />
           </Grid>
 
-          <Grid>
+          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
             <Paper sx={{ p: 2 }}>
               <ListCardHeader title="直近5レース" to="/summary/daily" />
               <List dense>
@@ -161,7 +208,7 @@ const DashboardLayout = () => {
             </Paper>
           </Grid>
 
-          <Grid>
+          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
             <Paper sx={{ p: 2 }}>
               <ListCardHeader title="コース BEST5" to="/summary/course" />
               <List dense>
@@ -181,7 +228,7 @@ const DashboardLayout = () => {
             </Paper>
           </Grid>
 
-          <Grid>
+          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
             <Paper sx={{ p: 2 }}>
               <ListCardHeader
                 title="コース WORST5"
