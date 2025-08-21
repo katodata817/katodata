@@ -132,8 +132,8 @@ function CourseRow({ row }) {
         <TableCell
           align="right"
           sx={{
-            fontSize: "1.2rem",
-            backgroundColor: theme.palette.action.hover,
+            fontSize: "1.0rem",
+            // backgroundColor: theme.palette.action.hover,
           }}
           className="left-solid"
         >
@@ -141,26 +141,26 @@ function CourseRow({ row }) {
         </TableCell>
         <TableCell
           align="right"
-          sx={{ backgroundColor: theme.palette.action.hover }}
+          //   sx={{ backgroundColor: theme.palette.action.hover }}
         >
-          <RateChange value={row.road.avgRateChange} size={"1.2rem"} />
+          <RateChange value={row.road.avgRateChange} size={"1.0rem"} />
         </TableCell>
 
         <TableCell
           align="right"
           sx={{
-            fontSize: "1.2rem",
-            backgroundColor: theme.palette.action.hover,
+            fontSize: "1.0rem",
+            // backgroundColor: theme.palette.action.hover,
           }}
-          className="left-solid"
+          //   className="left-solid"
         >
           {row.circuit.raceCount > 0 ? `${row.circuit.raceCount}戦` : "-"}
         </TableCell>
         <TableCell
           align="right"
-          sx={{ backgroundColor: theme.palette.action.hover }}
+          //   sx={{ backgroundColor: theme.palette.action.hover }}
         >
-          <RateChange value={row.circuit.avgRateChange} size={"1.2rem"} />
+          <RateChange value={row.circuit.avgRateChange} size={"1.0rem"} />
         </TableCell>
       </TableRow>
 
@@ -185,9 +185,9 @@ function CourseRow({ row }) {
                   <col style={{ width: "12%" }} />
                   <col style={{ width: "14%" }} />
                   <col style={{ width: "10%" }} />
-                  <col style={{ width: "12%" }} />
+                  <col style={{ width: "11%" }} />
                   <col style={{ width: "10%" }} />
-                  <col style={{ width: "12%" }} />
+                  <col style={{ width: "11%" }} />
                 </colgroup>
                 <TableBody>
                   {dailySummaryForCourse.map((day, index) => (
@@ -220,7 +220,7 @@ function CourseRow({ row }) {
                       <TableCell
                         align="right"
                         sx={{
-                          fontSize: "1.0rem",
+                          fontSize: "1.2rem",
                           backgroundColor: theme.palette.action.hover,
                         }}
                       >
@@ -232,7 +232,7 @@ function CourseRow({ row }) {
                       >
                         <RateChange
                           value={day.all.avgRateChange}
-                          size={"1.0rem"}
+                          size={"1.2rem"}
                         />
                       </TableCell>
                       <TableCell
@@ -240,7 +240,7 @@ function CourseRow({ row }) {
                         className="left-solid"
                         sx={{
                           fontSize: "1.0rem",
-                          backgroundColor: theme.palette.action.focus,
+                          backgroundColor: theme.palette.action.hover,
                         }}
                       >
                         {day.road.raceCount > 0
@@ -249,7 +249,7 @@ function CourseRow({ row }) {
                       </TableCell>
                       <TableCell
                         align="right"
-                        sx={{ backgroundColor: theme.palette.action.focus }}
+                        sx={{ backgroundColor: theme.palette.action.hover }}
                       >
                         {day.road.raceCount > 0 ? (
                           <RateChange
@@ -262,10 +262,10 @@ function CourseRow({ row }) {
                       </TableCell>
                       <TableCell
                         align="right"
-                        className="left-solid"
+                        // className="left-solid"
                         sx={{
                           fontSize: "1.0rem",
-                          backgroundColor: theme.palette.action.focus,
+                          backgroundColor: theme.palette.action.hover,
                         }}
                       >
                         {day.circuit.raceCount > 0
@@ -274,7 +274,7 @@ function CourseRow({ row }) {
                       </TableCell>
                       <TableCell
                         align="right"
-                        sx={{ backgroundColor: theme.palette.action.focus }}
+                        sx={{ backgroundColor: theme.palette.action.hover }}
                       >
                         {day.circuit.raceCount > 0 ? (
                           <RateChange
@@ -352,9 +352,9 @@ const CourseSummaryPage = () => {
           <col style={{ width: "10%" }} />
           <col style={{ width: "14%" }} />
           <col style={{ width: "10%" }} />
-          <col style={{ width: "12%" }} />
+          <col style={{ width: "11%" }} />
           <col style={{ width: "10%" }} />
-          <col style={{ width: "12%" }} />
+          <col style={{ width: "11%" }} />
         </colgroup>
         <TableHead>
           {/* 1行目のヘッダー（グループ名） */}
@@ -374,7 +374,7 @@ const CourseSummaryPage = () => {
               sx={{
                 fontSize: "1.1rem",
                 color: "text.secondary",
-                backgroundColor: "action.hover",
+                // backgroundColor: "action.hover",
               }}
               colSpan={2}
               align="center"
@@ -386,11 +386,11 @@ const CourseSummaryPage = () => {
               sx={{
                 fontSize: "1.1rem",
                 color: "text.secondary",
-                backgroundColor: "action.hover",
+                // backgroundColor: "action.hover",
               }}
               colSpan={2}
               align="center"
-              className="left-solid"
+              //   className="left-solid"
             >
               周回
             </TableCell>
@@ -401,13 +401,13 @@ const CourseSummaryPage = () => {
               <React.Fragment key={type}>
                 <TableCell
                   style={{ padding: "6px 12px" }}
-                  className={type === "all" ? "" : "left-solid"}
+                  className={type === "road" ? "left-solid" : ""}
                   align="right"
                   sx={
                     type !== "all"
                       ? {
                           color: "text.secondary",
-                          backgroundColor: "action.hover",
+                          //   backgroundColor: "action.hover",
                         }
                       : {}
                   }
@@ -427,7 +427,7 @@ const CourseSummaryPage = () => {
                     type !== "all"
                       ? {
                           color: "text.secondary",
-                          backgroundColor: "action.hover",
+                          //   backgroundColor: "action.hover",
                         }
                       : {}
                   }
