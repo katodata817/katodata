@@ -185,9 +185,9 @@ function CourseRow({ row }) {
                   <col style={{ width: "12%" }} />
                   <col style={{ width: "14%" }} />
                   <col style={{ width: "10%" }} />
-                  <col style={{ width: "11%" }} />
+                  <col style={{ width: "13%" }} />
                   <col style={{ width: "10%" }} />
-                  <col style={{ width: "11%" }} />
+                  <col style={{ width: "13%" }} />
                 </colgroup>
                 <TableBody>
                   {dailySummaryForCourse.map((day, index) => (
@@ -352,9 +352,9 @@ const CourseSummaryPage = () => {
           <col style={{ width: "10%" }} />
           <col style={{ width: "14%" }} />
           <col style={{ width: "10%" }} />
-          <col style={{ width: "11%" }} />
+          <col style={{ width: "13%" }} />
           <col style={{ width: "10%" }} />
-          <col style={{ width: "11%" }} />
+          <col style={{ width: "13%" }} />
         </colgroup>
         <TableHead>
           {/* 1行目のヘッダー（グループ名） */}
@@ -439,7 +439,7 @@ const CourseSummaryPage = () => {
                     }
                     onClick={() => handleRequestSort(`${type}.avgRateChange`)}
                   >
-                    レート増減
+                    レート(平均)
                   </TableSortLabel>
                 </TableCell>
               </React.Fragment>
