@@ -174,8 +174,8 @@ const RateChart = ({ races }) => {
             hide={true}
           />
           <YAxis
-            domain={[7900, 8600]}
-            tickCount={8}
+            domain={[7800, 8600]}
+            tickCount={9}
             tick={{ fontSize: 16, fill: theme.palette.text.primary }}
           />
           <Tooltip
