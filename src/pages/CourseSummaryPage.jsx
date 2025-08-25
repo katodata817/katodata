@@ -12,6 +12,13 @@ import {
   TableSortLabel,
   Collapse,
   IconButton,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Grid,
+  Checkbox,
+  FormControlLabel,
 } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -50,14 +57,26 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-function CourseRow({ row }) {
+function CourseRow({ row, startDate, endDate, isAllTime }) {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
 
   const dailySummaryForCourse = useMemo(() => {
-    const courseRaces = raceData.filter(
-      (race) => race.course === row.courseName
-    );
+    const courseRaces = raceData.filter((race) => {
+      if (race.course !== row.courseName) return false;
+      // 「全期間」でなければ、ここでさらに日付で絞り込む
+      if (!isAllTime) {
+        const raceDate = new Date(race.date);
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        if (start > end) {
+          // 開始日と終了日が逆でもOK
+          return raceDate >= end && raceDate <= start;
+        }
+        return raceDate >= start && raceDate <= end;
+      }
+      return true; // 全期間なら、コース名だけでOK
+    });
 
     const statsByDate = courseRaces.reduce((acc, race) => {
       const { date, rateChange, type } = race;
@@ -95,7 +114,7 @@ function CourseRow({ row }) {
         };
       })
       .sort((a, b) => new Date(b.date) - new Date(a.date));
-  }, [row.courseName]);
+  }, [row.courseName, startDate, endDate, isAllTime]);
 
   return (
     <React.Fragment>
@@ -197,9 +216,9 @@ function CourseRow({ row }) {
                           rowSpan={dailySummaryForCourse.length}
                           sx={{
                             // 背景画像を指定
-                            backgroundImage: `url('/${encodeURIComponent(
-                              row.courseName
-                            )}.png')`,
+                            // backgroundImage: `url('/${encodeURIComponent(
+                            //   row.courseName
+                            // )}.png')`,
                             backgroundPosition: "center top",
                             border: 0,
                             backgroundRepeat: "no-repeat",
@@ -302,22 +321,63 @@ const CourseSummaryPage = () => {
   const [searchParams] = useSearchParams();
   // URLに order=asc があれば 'asc' を、なければ 'desc' を初期値にする
   const initialOrder = searchParams.get("order") === "asc" ? "asc" : "desc";
-
   const [order, setOrder] = useState(initialOrder);
   const [orderBy, setOrderBy] = useState("all.avgRateChange");
 
-  // ↓↓↓【重要】searchParamsの変更を監視するuseEffectを追加 ↓↓↓
+  // プルダウンの選択肢となる、重複しない日付のリストを作成
+  const uniqueDates = useMemo(
+    () =>
+      [...new Set(raceData.map((race) => race.date))].sort(
+        (a, b) => new Date(a) - new Date(b)
+      ),
+    []
+  );
+
+  const [isAllTime, setIsAllTime] = useState(true);
+  const [startDate, setStartDate] = useState(
+    uniqueDates.length > 0 ? uniqueDates[0] : ""
+  );
+  const [endDate, setEndDate] = useState(
+    uniqueDates.length > 0 ? uniqueDates[uniqueDates.length - 1] : ""
+  );
+
+  const [loading, setLoading] = useState(false);
+
+  // 選択された期間で、表示するデータを絞り込む
+  const filteredRaces = useMemo(() => {
+    if (isAllTime) {
+      return raceData;
+    }
+    return raceData.filter((race) => {
+      const raceDate = new Date(race.date);
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      // 開始日と終了日を逆に選んだ場合も考慮
+      if (start > end) {
+        return raceDate >= end && raceDate <= start;
+      }
+      return raceDate >= start && raceDate <= end;
+    });
+  }, [isAllTime, startDate, endDate]);
+
+  // 絞り込んだデータを元に、サマリーを計算
+  const courseSummaryData = useMemo(
+    () => summarizeByCourse(filteredRaces),
+    [filteredRaces]
+  );
+
+  const sortedData = useMemo(
+    () => stableSort(courseSummaryData, getComparator(order, orderBy)),
+    [courseSummaryData, order, orderBy]
+  );
+
   useEffect(() => {
     // URLの?order=...の値が変わったら、ソート順のstateを更新する
     const newOrder = searchParams.get("order") === "asc" ? "asc" : "desc";
     setOrder(newOrder);
-    // ソートキーも、デフォルトの'all.avgRateChange'に戻す
     setOrderBy("all.avgRateChange");
-
     window.scrollTo(0, 0);
   }, [searchParams]); // searchParamsが変わるたびに、この中が実行される
-
-  const courseSummaryData = useMemo(() => summarizeByCourse(raceData), []);
 
   const handleRequestSort = (property) => {
     const isSameColumn = orderBy === property;
@@ -338,121 +398,230 @@ const CourseSummaryPage = () => {
     }
   };
 
-  const sortedData = useMemo(
-    () => stableSort(courseSummaryData, getComparator(order, orderBy)),
-    [courseSummaryData, order, orderBy]
-  );
+  // 日付が変更された時の処理
+  const handleDateChange = (setter) => (event) => {
+    setLoading(true); // まずローディングを開始して、テーブルを透明にする
+    setTimeout(() => {
+      setter(event.target.value); // 少し遅れて、実際のデータ変更を行う
+      setLoading(false); // データ変更が終わったので、ローディングを解除してテーブルを表示
+    }, 500); // 50ミリ秒（0.05秒）の遅延
+  };
+
+  const handleAllTimeChange = (event) => {
+    setLoading(true); // 同じくローディングを開始
+    const checked = event.target.checked;
+    setTimeout(() => {
+      setIsAllTime(checked);
+      if (!checked && uniqueDates.length > 0) {
+        setStartDate(uniqueDates[0]);
+        setEndDate(uniqueDates[uniqueDates.length - 1]);
+      }
+      setLoading(false);
+    }, 500);
+  };
 
   return (
-    <TableContainer component={Paper} style={{ tableLayout: "fixed" }}>
-      <StyledTable aria-label="コース別サマリーテーブル">
-        <colgroup>
-          <col style={{ width: "5%" }} />
-          <col style={{ width: "auto" }} />
-          <col style={{ width: "10%" }} />
-          <col style={{ width: "14%" }} />
-          <col style={{ width: "10%" }} />
-          <col style={{ width: "13%" }} />
-          <col style={{ width: "10%" }} />
-          <col style={{ width: "13%" }} />
-        </colgroup>
-        <TableHead>
-          {/* 1行目のヘッダー（グループ名） */}
-          <TableRow sx={{ backgroundColor: "background.paper" }}>
-            <TableCell
-              sx={{ fontSize: "1.1rem" }}
-              rowSpan={2}
-              colSpan={2}
-              align="center"
-            >
-              コース名
-            </TableCell>
-            <TableCell sx={{ fontSize: "1.1rem" }} colSpan={2} align="center">
-              総合
-            </TableCell>
-            <TableCell
-              sx={{
-                fontSize: "1.1rem",
-                color: "text.secondary",
-                // backgroundColor: "action.hover",
-              }}
-              colSpan={2}
-              align="center"
-              className="left-solid"
-            >
-              道
-            </TableCell>
-            <TableCell
-              sx={{
-                fontSize: "1.1rem",
-                color: "text.secondary",
-                // backgroundColor: "action.hover",
-              }}
-              colSpan={2}
-              align="center"
-              //   className="left-solid"
-            >
-              周回
-            </TableCell>
-          </TableRow>
-          {/* 2行目のヘッダー（各項目のソートラベル） */}
-          <TableRow sx={{ backgroundColor: "background.paper" }}>
-            {["all", "road", "circuit"].map((type) => (
-              <React.Fragment key={type}>
-                <TableCell
-                  style={{ padding: "6px 12px" }}
-                  className={type === "road" ? "left-solid" : ""}
-                  align="right"
-                  sx={
-                    type !== "all"
-                      ? {
-                          color: "text.secondary",
-                          //   backgroundColor: "action.hover",
-                        }
-                      : {}
-                  }
+    <Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <Typography variant="h4" component="h1"></Typography>
+
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isAllTime}
+                onChange={handleAllTimeChange}
+                sx={{
+                  color: "common.white",
+                  "&.Mui-checked": {
+                    color: "common.white",
+                  },
+                }}
+              />
+            }
+            label="全期間"
+          />
+          <Grid container spacing={2} alignItems="center">
+            <Grid>
+              <FormControl size="small" disabled={isAllTime}>
+                <InputLabel>開始日</InputLabel>
+                <Select
+                  value={startDate}
+                  label="開始日"
+                  onChange={handleDateChange(setStartDate)}
+                  sx={{ minWidth: 140 }}
                 >
-                  <TableSortLabel
-                    active={orderBy === `${type}.raceCount`}
-                    direction={orderBy === `${type}.raceCount` ? order : "asc"}
-                    onClick={() => handleRequestSort(`${type}.raceCount`)}
-                  >
-                    レース数
-                  </TableSortLabel>
+                  {uniqueDates.map((date) => (
+                    <MenuItem key={date} value={date}>
+                      {date}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid>
+              <Typography>〜</Typography>
+            </Grid>
+            <Grid>
+              <FormControl size="small" disabled={isAllTime}>
+                <InputLabel>終了日</InputLabel>
+                <Select
+                  value={endDate}
+                  label="終了日"
+                  onChange={handleDateChange(setEndDate)}
+                  sx={{ minWidth: 140 }}
+                >
+                  {uniqueDates.map((date) => (
+                    <MenuItem key={date} value={date}>
+                      {date}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+
+      <Box>
+        <TableContainer component={Paper} style={{ tableLayout: "fixed" }}>
+          <StyledTable aria-label="コース別サマリーテーブル">
+            <colgroup>
+              <col style={{ width: "5%" }} />
+              <col style={{ width: "auto" }} />
+              <col style={{ width: "10%" }} />
+              <col style={{ width: "14%" }} />
+              <col style={{ width: "10%" }} />
+              <col style={{ width: "13%" }} />
+              <col style={{ width: "10%" }} />
+              <col style={{ width: "13%" }} />
+            </colgroup>
+            <TableHead>
+              {/* 1行目のヘッダー（グループ名） */}
+              <TableRow sx={{ backgroundColor: "background.paper" }}>
+                <TableCell
+                  sx={{ fontSize: "1.1rem" }}
+                  rowSpan={2}
+                  colSpan={2}
+                  align="center"
+                >
+                  コース名
                 </TableCell>
                 <TableCell
-                  style={{ padding: "6px 12px" }}
-                  align="right"
-                  sx={
-                    type !== "all"
-                      ? {
-                          color: "text.secondary",
-                          //   backgroundColor: "action.hover",
-                        }
-                      : {}
-                  }
+                  sx={{ fontSize: "1.1rem" }}
+                  colSpan={2}
+                  align="center"
                 >
-                  <TableSortLabel
-                    active={orderBy === `${type}.avgRateChange`}
-                    direction={
-                      orderBy === `${type}.avgRateChange` ? order : "asc"
-                    }
-                    onClick={() => handleRequestSort(`${type}.avgRateChange`)}
-                  >
-                    レート(平均)
-                  </TableSortLabel>
+                  総合
                 </TableCell>
-              </React.Fragment>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {sortedData.map((row) => (
-            <CourseRow key={row.courseName} row={row} />
-          ))}
-        </TableBody>
-      </StyledTable>
-    </TableContainer>
+                <TableCell
+                  sx={{
+                    fontSize: "1.1rem",
+                    color: "text.secondary",
+                    // backgroundColor: "action.hover",
+                  }}
+                  colSpan={2}
+                  align="center"
+                  className="left-solid"
+                >
+                  道
+                </TableCell>
+                <TableCell
+                  sx={{
+                    fontSize: "1.1rem",
+                    color: "text.secondary",
+                    // backgroundColor: "action.hover",
+                  }}
+                  colSpan={2}
+                  align="center"
+                  //   className="left-solid"
+                >
+                  周回
+                </TableCell>
+              </TableRow>
+              {/* 2行目のヘッダー（各項目のソートラベル） */}
+              <TableRow sx={{ backgroundColor: "background.paper" }}>
+                {["all", "road", "circuit"].map((type) => (
+                  <React.Fragment key={type}>
+                    <TableCell
+                      style={{ padding: "6px 12px" }}
+                      className={type === "road" ? "left-solid" : ""}
+                      align="right"
+                      sx={
+                        type !== "all"
+                          ? {
+                              color: "text.secondary",
+                              //   backgroundColor: "action.hover",
+                            }
+                          : {}
+                      }
+                    >
+                      <TableSortLabel
+                        active={orderBy === `${type}.raceCount`}
+                        direction={
+                          orderBy === `${type}.raceCount` ? order : "asc"
+                        }
+                        onClick={() => handleRequestSort(`${type}.raceCount`)}
+                      >
+                        レース数
+                      </TableSortLabel>
+                    </TableCell>
+                    <TableCell
+                      style={{ padding: "6px 12px" }}
+                      align="right"
+                      sx={
+                        type !== "all"
+                          ? {
+                              color: "text.secondary",
+                              //   backgroundColor: "action.hover",
+                            }
+                          : {}
+                      }
+                    >
+                      <TableSortLabel
+                        active={orderBy === `${type}.avgRateChange`}
+                        direction={
+                          orderBy === `${type}.avgRateChange` ? order : "asc"
+                        }
+                        onClick={() =>
+                          handleRequestSort(`${type}.avgRateChange`)
+                        }
+                      >
+                        レート(平均)
+                      </TableSortLabel>
+                    </TableCell>
+                  </React.Fragment>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody
+              sx={{
+                opacity: loading ? 0 : 1,
+                //   transition: "opacity 0.3s ease-in-out",
+                transition: "opacity 0.3s",
+              }}
+            >
+              {sortedData.map((row) => (
+                <CourseRow
+                  key={row.courseName}
+                  row={row}
+                  startDate={startDate}
+                  endDate={endDate}
+                  isAllTime={isAllTime}
+                />
+              ))}
+            </TableBody>
+          </StyledTable>
+        </TableContainer>
+      </Box>
+    </Box>
   );
 };
 
