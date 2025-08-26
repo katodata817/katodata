@@ -12,6 +12,8 @@ import {
   Paper,
   Collapse,
   IconButton,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -21,10 +23,28 @@ import raceData from "../dummyRaces.json";
 import { summarizeByDate } from "../utils/utils";
 import StyledTable from "../components/StyledTable";
 
+const rootHeaderSx = {
+  padding: { xs: "6px 6px", sm: "16px 12px" },
+  fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.0rem" },
+};
+
+const rootBodySx = {
+  padding: { xs: "12px 4px", sm: "16px 12px" },
+  fontSize: { xs: "0.8rem", sm: "1.0rem", md: "1.1rem" },
+};
+
+const rootRateSx = {
+  padding: { xs: "0px 6px 0px 0px", sm: "0px 10px 0px 0px" },
+  fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.9rem" },
+};
+
 // 一日ごとの行コンポーネント
-function DailyRow({ day, open, setOpen }) {
+function DailyRow({ day, open, setOpen, isMobile }) {
   // 【新規】レースデータを左右のカラムに分割するロジック
   const splitRaces = useMemo(() => {
+    if (isMobile) {
+      return null; // スマホの時は、分割不要
+    }
     // まず、全レースを最新順にソートする
     const sorted = [...day.races].sort((a, b) => b.id - a.id);
 
@@ -41,42 +61,38 @@ function DailyRow({ day, open, setOpen }) {
     });
 
     return { left, right };
-  }, [day.races]);
+  }, [day.races, isMobile]);
 
   return (
     <React.Fragment>
       <TableRow hover>
-        <TableCell sx={{ width: "10px" }}>
+        <TableCell sx={{ padding: { xs: "0px 0px", sm: "6px 6px" } }}>
           <IconButton
             size="small"
             onClick={() => setOpen(open ? null : day.date)}
           >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {open ? (
+              <KeyboardArrowUpIcon fontSize="inherit" />
+            ) : (
+              <KeyboardArrowDownIcon fontSize="inherit" />
+            )}
           </IconButton>
         </TableCell>
-        <TableCell sx={{ fontSize: "1.4rem" }}>{day.date}</TableCell>
-        <TableCell
-          align="right"
-          style={{ padding: "18px 12px" }}
-          sx={{ fontSize: "1.4rem" }}
-        >
+        <TableCell sx={rootBodySx}>{day.date}</TableCell>
+        <TableCell align="right" sx={rootBodySx}>
           {day.raceCount}戦
         </TableCell>
-        <TableCell align="right" sx={{ fontSize: "1.4rem" }}>
+        <TableCell align="right" sx={rootBodySx}>
           {day.avgRank.toFixed(2)}位
         </TableCell>
-        <TableCell align="right" sx={{ fontSize: "1.4rem" }}>
+        <TableCell align="right" sx={rootBodySx}>
           {day.startRate}
         </TableCell>
-        <TableCell align="right" sx={{ fontSize: "1.4rem" }}>
+        <TableCell align="right" sx={rootBodySx}>
           {day.endRate}
         </TableCell>
-        <TableCell
-          align="left"
-          sx={{ fontSize: "1.4rem" }}
-          style={{ padding: "0px 12px 0px 0px" }}
-        >
-          <RateChange value={day.rateChange} isFixed={false} size={"1.1rem"} />
+        <TableCell align="left" sx={rootRateSx}>
+          <RateChange value={day.rateChange} isFixed={false} sx={rootRateSx} />
         </TableCell>
       </TableRow>
 
@@ -89,25 +105,31 @@ function DailyRow({ day, open, setOpen }) {
                 padding: 0,
               }}
             >
-              <Grid container spacing={0}>
-                <Grid size={{ xs: 0, md: 1.0 }} />
-                <Grid
-                  size={{ xs: 12, md: 5.5 }}
-                  spacing={0}
-                  borderLeft={5}
-                  borderColor={"info.main"}
-                >
-                  <RaceTable races={splitRaces.left} />
+              {isMobile ? (
+                <Box borderLeft={5} borderColor={"info.main"}>
+                  <RaceTable races={day.races} />
+                </Box>
+              ) : (
+                <Grid container spacing={0}>
+                  <Grid size={{ xs: 0, md: 1.0 }} />
+                  <Grid
+                    size={{ xs: 12, md: 5.5 }}
+                    spacing={0}
+                    borderLeft={5}
+                    borderColor={"info.main"}
+                  >
+                    <RaceTable races={splitRaces.left} />
+                  </Grid>
+                  <Grid
+                    size={{ xs: 12, md: 5.5 }}
+                    spacing={0}
+                    borderLeft={5}
+                    borderColor={"info.main"}
+                  >
+                    <RaceTable races={splitRaces.right} />
+                  </Grid>
                 </Grid>
-                <Grid
-                  size={{ xs: 12, md: 5.5 }}
-                  spacing={0}
-                  borderLeft={5}
-                  borderColor={"info.main"}
-                >
-                  <RaceTable races={splitRaces.right} />
-                </Grid>
-              </Grid>
+              )}
             </Box>
           </Collapse>
         </TableCell>
@@ -120,33 +142,36 @@ const DailySummaryPage = () => {
   const dailySummary = useMemo(() => summarizeByDate(raceData), []);
   const [openDate, setOpenDate] = useState(null);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <TableContainer component={Paper} sx={{ padding: 0 }}>
       <StyledTable aria-label="日別戦績テーブル">
         <colgroup>
-          <col style={{ width: "5px" }} />
+          <col style={{ width: "4%" }} />
           <col style={{ width: "auto" }} />
           <col style={{ width: "13%" }} />
-          <col style={{ width: "13%" }} />
+          <col style={{ width: "15%" }} />
           <col style={{ width: "13%" }} />
           <col style={{ width: "10%" }} />
-          <col style={{ width: "3%" }} />
+          <col style={{ width: "2%" }} />
         </colgroup>
         <TableHead>
           <TableRow sx={{ backgroundColor: "background.paper" }}>
             <TableCell />
-            <TableCell sx={{ fontSize: "1.1rem" }}>日付</TableCell>
-            <TableCell sx={{ fontSize: "1.1rem" }} align="right">
-              試合数
+            <TableCell sx={rootHeaderSx}>日付</TableCell>
+            <TableCell sx={rootHeaderSx} align="right">
+              {isMobile ? "レース" : "レース数"}
             </TableCell>
-            <TableCell sx={{ fontSize: "1.1rem" }} align="right">
-              平均順位
+            <TableCell sx={rootHeaderSx} align="right">
+              {isMobile ? "順位" : "平均順位"}
             </TableCell>
-            <TableCell sx={{ fontSize: "1.1rem" }} align="right">
-              開始レート
+            <TableCell sx={rootHeaderSx} align="right">
+              {isMobile ? "開始" : "開始レート"}
             </TableCell>
-            <TableCell sx={{ fontSize: "1.1rem" }} align="right" colSpan={2}>
-              終了レート
+            <TableCell sx={rootHeaderSx} align="center" colSpan={2}>
+              {isMobile ? "終了" : "終了レート"}
             </TableCell>
           </TableRow>
         </TableHead>
@@ -157,6 +182,7 @@ const DailySummaryPage = () => {
               day={day}
               open={openDate === day.date}
               setOpen={setOpenDate}
+              isMobile={isMobile}
             />
           ))}
         </TableBody>

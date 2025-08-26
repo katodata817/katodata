@@ -193,13 +193,13 @@ function CourseRow({ row, startDate, endDate, isAllTime }) {
             <Box sx={{ margin: "0px" }}>
               <Table size="small">
                 <colgroup>
-                  <col style={{ width: "4%" }} />
+                  <col style={{ width: "8%" }} />
                   <col style={{ width: "auto" }} />
-                  <col style={{ width: "12%" }} />
-                  <col style={{ width: "12%" }} />
                   <col style={{ width: "10%" }} />
                   <col style={{ width: "12%" }} />
-                  <col style={{ width: "10%" }} />
+                  <col style={{ width: "8%" }} />
+                  <col style={{ width: "12%" }} />
+                  <col style={{ width: "8%" }} />
                   <col style={{ width: "12%" }} />
                 </colgroup>
                 <TableBody>
@@ -453,7 +453,7 @@ const CourseSummaryPage = () => {
                   label="開始日"
                   onChange={handleDateChange(setStartDate)}
                   sx={{
-                    minWidth: 120,
+                    minWidth: 100,
                     fontSize: { xs: "0.7rem", md: "1.0rem" },
                   }}
                 >
@@ -478,7 +478,7 @@ const CourseSummaryPage = () => {
                   label="終了日"
                   onChange={handleDateChange(setEndDate)}
                   sx={{
-                    minWidth: 120,
+                    minWidth: 100,
                     fontSize: { xs: "0.7rem", md: "1.0rem" },
                   }}
                 >
@@ -500,11 +500,11 @@ const CourseSummaryPage = () => {
             <colgroup>
               <col style={{ width: "4%" }} />
               <col style={{ width: "auto" }} />
-              <col style={{ width: "12%" }} />
-              <col style={{ width: "12%" }} />
               <col style={{ width: "10%" }} />
               <col style={{ width: "12%" }} />
-              <col style={{ width: "10%" }} />
+              <col style={{ width: "8%" }} />
+              <col style={{ width: "12%" }} />
+              <col style={{ width: "8%" }} />
               <col style={{ width: "12%" }} />
             </colgroup>
             <TableHead>
@@ -571,6 +571,11 @@ const CourseSummaryPage = () => {
                           orderBy === `${type}.raceCount` ? order : "asc"
                         }
                         onClick={() => handleRequestSort(`${type}.raceCount`)}
+                        sx={{
+                          "& .MuiTableSortLabel-icon": {
+                            fontSize: { xs: "0.6rem", md: "1.0rem" },
+                          },
+                        }}
                       >
                         {isMobile ? "race" : "レース数"}
                       </TableSortLabel>
@@ -607,6 +612,11 @@ const CourseSummaryPage = () => {
                         onClick={() =>
                           handleRequestSort(`${type}.avgRateChange`)
                         }
+                        sx={{
+                          "& .MuiTableSortLabel-icon": {
+                            fontSize: { xs: "0.6rem", md: "1.0rem" },
+                          },
+                        }}
                       >
                         {isMobile ? "avg" : "レート(平均)"}
                       </TableSortLabel>

@@ -45,7 +45,7 @@ const childBodySx = {
   fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.0rem" },
 };
 
-const CourseResultTable = ({ courses }) => {
+const CourseResultTable = ({ courses, isMobile }) => {
   const theme = useTheme();
   return (
     <Box
@@ -68,7 +68,7 @@ const CourseResultTable = ({ courses }) => {
             <TableRow style={{ backgroundColor: theme.palette.action.hover }}>
               <TableCell></TableCell>
               <TableCell sx={childHeaderSx} align="right">
-                レース数
+                {isMobile ? "レース" : "レース数"}
               </TableCell>
               <TableCell sx={childHeaderSx} align="right">
                 平均順位
@@ -103,7 +103,7 @@ const CourseResultTable = ({ courses }) => {
   );
 };
 
-function DailyRow({ day, isOpen, onToggle }) {
+function DailyRow({ day, isOpen, onToggle, isMobile }) {
   // この日に行われたレースデータ（day.races）を元に、コース別の成績を計算する
   const courseSummaryForDay = useMemo(
     () =>
@@ -168,7 +168,10 @@ function DailyRow({ day, isOpen, onToggle }) {
                   borderLeft={5}
                   borderColor={"success.secondary"}
                 >
-                  <CourseResultTable courses={positiveCourses} />
+                  <CourseResultTable
+                    courses={positiveCourses}
+                    isMobile={isMobile}
+                  />
                 </Grid>
                 <Grid
                   size={{ xs: 12, md: 5.75 }}
@@ -176,7 +179,10 @@ function DailyRow({ day, isOpen, onToggle }) {
                   borderLeft={5}
                   borderColor={"error.secondary"}
                 >
-                  <CourseResultTable courses={negativeCourses} />
+                  <CourseResultTable
+                    courses={negativeCourses}
+                    isMobile={isMobile}
+                  />
                 </Grid>
               </Grid>
             </Box>
@@ -234,10 +240,10 @@ const TopPage = () => {
               <TableCell />
               <TableCell sx={rootHeaderSx}>日付</TableCell>
               <TableCell sx={rootHeaderSx} align="right">
-                レース数
+                {isMobile ? "レース" : "レース数"}
               </TableCell>
               <TableCell sx={rootHeaderSx} align="right">
-                平均順位
+                {isMobile ? "順位" : "平均順位"}
               </TableCell>
               <TableCell sx={rootHeaderSx} align="right">
                 {isMobile ? "開始" : "開始レート"}
@@ -256,6 +262,7 @@ const TopPage = () => {
                 key={day.date}
                 day={day}
                 isOpen={openRowDate === day.date}
+                isMobile={isMobile}
                 onToggle={() => handleToggleRow(day.date)}
               />
             ))}
