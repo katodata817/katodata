@@ -13,6 +13,7 @@ import {
   Collapse,
   IconButton,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -24,17 +25,24 @@ import { summarizeByDate } from "../utils/utils"; // ← 新しい関数をイ�
 import { summarizeByCourse } from "../utils/utils";
 import StyledTable from "../components/StyledTable";
 
-const largeSx = {
-  padding: { xs: "12px 2px", sm: "16px 16px" },
-  fontSize: { xs: "0.8rem", sm: "1.0rem", md: "1.1rem" },
-};
-const mediumSx = {
+const rootHeaderSx = {
   padding: { xs: "6px 6px", sm: "6px 10px" },
   fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.0rem" },
 };
-const smallSx = {
+
+const rootBodySx = {
+  padding: { xs: "12px 2px", sm: "16px 16px" },
+  fontSize: { xs: "0.8rem", sm: "1.0rem", md: "1.1rem" },
+};
+
+const childHeaderSx = {
   padding: { xs: "6px 10px", sm: "6px 10px" },
   fontSize: { xs: "0.6rem", sm: "0.8rem", md: "0.9rem" },
+};
+
+const childBodySx = {
+  padding: { xs: "6px 6px", sm: "6px 10px" },
+  fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.0rem" },
 };
 
 const CourseResultTable = ({ courses }) => {
@@ -59,13 +67,13 @@ const CourseResultTable = ({ courses }) => {
           <TableHead>
             <TableRow style={{ backgroundColor: theme.palette.action.hover }}>
               <TableCell></TableCell>
-              <TableCell sx={smallSx} align="right">
+              <TableCell sx={childHeaderSx} align="right">
                 レース数
               </TableCell>
-              <TableCell sx={smallSx} align="right">
+              <TableCell sx={childHeaderSx} align="right">
                 平均順位
               </TableCell>
-              <TableCell sx={smallSx} align="right">
+              <TableCell sx={childHeaderSx} align="right">
                 平均レート
               </TableCell>
             </TableRow>
@@ -73,15 +81,18 @@ const CourseResultTable = ({ courses }) => {
           <TableBody>
             {courses.map((course) => (
               <TableRow key={course.courseName} hover>
-                <TableCell sx={mediumSx}>{course.courseName}</TableCell>
-                <TableCell align="right" sx={mediumSx}>
+                <TableCell sx={childBodySx}>{course.courseName}</TableCell>
+                <TableCell align="right" sx={childBodySx}>
                   {course.all.raceCount}戦
                 </TableCell>
-                <TableCell align="right" sx={mediumSx}>
+                <TableCell align="right" sx={childBodySx}>
                   {course.all.avgRank.toFixed(2)}位
                 </TableCell>
-                <TableCell sx={mediumSx} align="right">
-                  <RateChange value={course.all.avgRateChange} sx={mediumSx} />
+                <TableCell sx={childBodySx} align="right">
+                  <RateChange
+                    value={course.all.avgRateChange}
+                    sx={childBodySx}
+                  />
                 </TableCell>
               </TableRow>
             ))}
@@ -113,25 +124,29 @@ function DailyRow({ day, isOpen, onToggle }) {
   return (
     <React.Fragment>
       <TableRow hover>
-        <TableCell sx={{ width: "10px" }}>
+        <TableCell sx={{ padding: { xs: "0px 0px", sm: "6px 6px" } }}>
           <IconButton size="small" onClick={onToggle}>
-            {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {isOpen ? (
+              <KeyboardArrowUpIcon fontSize="inherit" />
+            ) : (
+              <KeyboardArrowDownIcon fontSize="inherit" />
+            )}
           </IconButton>
         </TableCell>
-        <TableCell sx={largeSx}>{day.date}</TableCell>
-        <TableCell align="right" sx={largeSx}>
+        <TableCell sx={rootBodySx}>{day.date}</TableCell>
+        <TableCell align="right" sx={rootBodySx}>
           {day.raceCount}戦
         </TableCell>
-        <TableCell align="right" sx={largeSx}>
+        <TableCell align="right" sx={rootBodySx}>
           {day.avgRank.toFixed(2)}位
         </TableCell>
-        <TableCell align="right" sx={largeSx}>
+        <TableCell align="right" sx={rootBodySx}>
           {day.startRate}
         </TableCell>
-        <TableCell align="right">
-          <RateChange value={day.rateChange} isFixed={false} sx={largeSx} />
+        <TableCell align="right" sx={rootBodySx}>
+          <RateChange value={day.rateChange} isFixed={false} sx={rootBodySx} />
         </TableCell>
-        <TableCell align="right" sx={largeSx}>
+        <TableCell align="right" sx={rootBodySx}>
           {day.endRate}
         </TableCell>
       </TableRow>
@@ -197,6 +212,8 @@ const TopPage = () => {
     return raceData;
   }, [openRowDate, dailySummary]);
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Box>
       <RateChart races={chartData} />
@@ -204,7 +221,7 @@ const TopPage = () => {
       <TableContainer component={Paper} sx={{ padding: 0 }}>
         <StyledTable aria-label="日別戦績テーブル">
           <colgroup>
-            <col style={{ width: "5%" }} />
+            <col style={{ width: "2%" }} />
             <col style={{ width: "auto" }} />
             <col style={{ width: "14%" }} />
             <col style={{ width: "14%" }} />
@@ -215,21 +232,21 @@ const TopPage = () => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "background.paper" }}>
               <TableCell />
-              <TableCell sx={mediumSx}>日付</TableCell>
-              <TableCell sx={mediumSx} align="right">
+              <TableCell sx={rootHeaderSx}>日付</TableCell>
+              <TableCell sx={rootHeaderSx} align="right">
                 レース数
               </TableCell>
-              <TableCell sx={mediumSx} align="right">
+              <TableCell sx={rootHeaderSx} align="right">
                 平均順位
               </TableCell>
-              <TableCell sx={mediumSx} align="right">
-                開始レート
+              <TableCell sx={rootHeaderSx} align="right">
+                {isMobile ? "開始" : "開始レート"}
               </TableCell>
-              <TableCell sx={mediumSx} align="right">
-                増減レート
+              <TableCell sx={rootHeaderSx} align="right">
+                {isMobile ? "増減" : "増減レート"}
               </TableCell>
-              <TableCell sx={mediumSx} align="right">
-                終了レート
+              <TableCell sx={rootHeaderSx} align="right">
+                {isMobile ? "終了" : "終了レート"}
               </TableCell>
             </TableRow>
           </TableHead>

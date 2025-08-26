@@ -22,7 +22,7 @@ const StyledTable = styled(Table)(({ theme }) => ({
     // --- 親の行のスタイル ---
     "& .main-row > td": {
       borderBottom: `0px solid ${"#ffff00"}`,
-      padding: "6px 16px",
+      //   padding: "6px 6px",
       //   backgroundColor: theme.palette.action.hover,
     },
     // --- 子の行（展開された行）のスタイル ---

@@ -19,6 +19,7 @@ import {
   Grid,
   Checkbox,
   FormControlLabel,
+  useMediaQuery,
 } from "@mui/material";
 import { useSearchParams } from "react-router-dom";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -28,6 +29,34 @@ import StyledTable from "../components/StyledTable";
 import { summarizeByCourse } from "../utils/utils";
 import RateChange from "../components/RateChange";
 import { useTheme } from "@mui/material/styles";
+
+const rootHeaderSx = {
+  fontWeight: "bold",
+  padding: { xs: "0px 0px", sm: "12px 6px" },
+  fontSize: { xs: "0.7rem", sm: "0.9rem", md: "1.0rem" },
+};
+
+const rootHeaderSubSx = {
+  color: "text.secondary",
+  padding: { xs: "0px 0px", sm: "12px 6px" },
+  fontSize: { xs: "0.7rem", sm: "0.9rem", md: "1.0rem" },
+};
+
+const rootBodyBoldSx = {
+  padding: { xs: "10px 2px", sm: "10px 6px" },
+  fontSize: { xs: "0.7rem", sm: "1.0rem", md: "1.1rem" },
+  fontWeight: "bold",
+};
+
+const rootBodySx = {
+  padding: { xs: "6px 2px", sm: "6px 6px" },
+  fontSize: { xs: "0.7rem", sm: "1.0rem", md: "1.1rem" },
+};
+
+const childBodySx = {
+  padding: { xs: "6px 2px", sm: "6px 6px" },
+  fontSize: { xs: "0.6rem", sm: "0.9rem", md: "1.0rem" },
+};
 
 function getNestedProperty(obj, path) {
   return path.split(".").reduce((o, p) => (o ? o[p] : undefined), obj);
@@ -120,66 +149,40 @@ function CourseRow({ row, startDate, endDate, isAllTime }) {
     <React.Fragment>
       {/* 親テーブル */}
       <TableRow className="main-row">
-        <TableCell align="right" sx={{ width: "4px" }}>
+        <TableCell sx={{ padding: { xs: "0px 0px", sm: "6px 6px" } }}>
           <IconButton size="small" onClick={() => setOpen(!open)}>
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            {open ? (
+              <KeyboardArrowUpIcon fontSize="inherit" />
+            ) : (
+              <KeyboardArrowDownIcon fontSize="inherit" />
+            )}
           </IconButton>
         </TableCell>
-        <TableCell
-          sx={{
-            fontSize: "1.2rem",
-            fontWeight: "bold",
-          }}
-        >
-          {row.courseName}
-        </TableCell>
+        <TableCell sx={rootBodyBoldSx}>{row.courseName}</TableCell>
 
-        <TableCell
-          align="right"
-          sx={{ fontSize: "1.2rem", fontWeight: "bold" }}
-        >
+        <TableCell align="right" sx={rootBodyBoldSx}>
           {row.all.raceCount}戦
         </TableCell>
-        <TableCell align="right">
-          <RateChange
-            value={row.all.avgRateChange}
-            size={"1.2rem"}
-            weight={"bold"}
-          />
+        <TableCell align="right" sx={rootBodyBoldSx}>
+          <RateChange value={row.all.avgRateChange} sx={rootBodyBoldSx} />
         </TableCell>
 
-        <TableCell
-          align="right"
-          sx={{
-            fontSize: "1.0rem",
-            // backgroundColor: theme.palette.action.hover,
-          }}
-          className="left-solid"
-        >
+        <TableCell align="right" sx={rootBodySx} className="left-solid">
           {row.road.raceCount > 0 ? ` ${row.road.raceCount}戦` : "-"}
         </TableCell>
-        <TableCell
-          align="right"
-          //   sx={{ backgroundColor: theme.palette.action.hover }}
-        >
-          <RateChange value={row.road.avgRateChange} size={"1.0rem"} />
+        <TableCell align="right" sx={rootBodyBoldSx}>
+          <RateChange value={row.road.avgRateChange} sx={rootBodySx} />
         </TableCell>
 
         <TableCell
           align="right"
-          sx={{
-            fontSize: "1.0rem",
-            // backgroundColor: theme.palette.action.hover,
-          }}
+          sx={rootBodySx}
           //   className="left-solid"
         >
           {row.circuit.raceCount > 0 ? `${row.circuit.raceCount}戦` : "-"}
         </TableCell>
-        <TableCell
-          align="right"
-          //   sx={{ backgroundColor: theme.palette.action.hover }}
-        >
-          <RateChange value={row.circuit.avgRateChange} size={"1.0rem"} />
+        <TableCell align="right" sx={rootBodyBoldSx}>
+          <RateChange value={row.circuit.avgRateChange} sx={rootBodySx} />
         </TableCell>
       </TableRow>
 
@@ -188,50 +191,26 @@ function CourseRow({ row, startDate, endDate, isAllTime }) {
         <TableCell colSpan={8}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: "0px" }}>
-              <Table
-                size="small"
-                sx={{
-                  //   backgroundColor: "action.focus",
-                  //   backgroundColor: "background.default",
-                  "& .MuiTableRow-root:nth-of-type(even)": {
-                    // backgroundColor: theme.palette.action.hover,
-                  },
-                }}
-              >
+              <Table size="small">
                 <colgroup>
-                  <col style={{ width: "15%" }} />
+                  <col style={{ width: "4%" }} />
                   <col style={{ width: "auto" }} />
                   <col style={{ width: "12%" }} />
-                  <col style={{ width: "14%" }} />
+                  <col style={{ width: "12%" }} />
                   <col style={{ width: "10%" }} />
-                  <col style={{ width: "13%" }} />
+                  <col style={{ width: "12%" }} />
                   <col style={{ width: "10%" }} />
-                  <col style={{ width: "13%" }} />
+                  <col style={{ width: "12%" }} />
                 </colgroup>
                 <TableBody>
-                  {dailySummaryForCourse.map((day, index) => (
+                  {dailySummaryForCourse.map((day) => (
                     <TableRow key={day.date} hover style={{ border: 0 }}>
-                      {index === 0 && (
-                        <TableCell
-                          rowSpan={dailySummaryForCourse.length}
-                          sx={{
-                            // 背景画像を指定
-                            // backgroundImage: `url('/${encodeURIComponent(
-                            //   row.courseName
-                            // )}.png')`,
-                            backgroundPosition: "center top",
-                            border: 0,
-                            backgroundRepeat: "no-repeat",
-                            backgroundSize: "75%",
-                          }}
-                        />
-                      )}
+                      <TableCell />
                       <TableCell
                         className="left-info"
-                        style={{ padding: "8px 12px" }}
                         sx={{
-                          fontSize: "1.0rem",
                           backgroundColor: theme.palette.action.hover,
+                          ...childBodySx,
                         }}
                       >
                         {day.date}
@@ -239,27 +218,30 @@ function CourseRow({ row, startDate, endDate, isAllTime }) {
                       <TableCell
                         align="right"
                         sx={{
-                          fontSize: "1.2rem",
                           backgroundColor: theme.palette.action.hover,
+                          ...childBodySx,
                         }}
                       >
                         {day.all.raceCount}戦
                       </TableCell>
                       <TableCell
                         align="right"
-                        sx={{ backgroundColor: theme.palette.action.hover }}
+                        sx={{
+                          backgroundColor: theme.palette.action.hover,
+                          ...childBodySx,
+                        }}
                       >
                         <RateChange
                           value={day.all.avgRateChange}
-                          size={"1.2rem"}
+                          sx={childBodySx}
                         />
                       </TableCell>
                       <TableCell
                         align="right"
                         className="left-solid"
                         sx={{
-                          fontSize: "1.0rem",
                           backgroundColor: theme.palette.action.hover,
+                          ...childBodySx,
                         }}
                       >
                         {day.road.raceCount > 0
@@ -268,12 +250,15 @@ function CourseRow({ row, startDate, endDate, isAllTime }) {
                       </TableCell>
                       <TableCell
                         align="right"
-                        sx={{ backgroundColor: theme.palette.action.hover }}
+                        sx={{
+                          backgroundColor: theme.palette.action.hover,
+                          ...childBodySx,
+                        }}
                       >
                         {day.road.raceCount > 0 ? (
                           <RateChange
                             value={day.road.avgRateChange}
-                            size={"1.0rem"}
+                            sx={childBodySx}
                           />
                         ) : (
                           "-"
@@ -283,8 +268,8 @@ function CourseRow({ row, startDate, endDate, isAllTime }) {
                         align="right"
                         // className="left-solid"
                         sx={{
-                          fontSize: "1.0rem",
                           backgroundColor: theme.palette.action.hover,
+                          ...childBodySx,
                         }}
                       >
                         {day.circuit.raceCount > 0
@@ -293,12 +278,15 @@ function CourseRow({ row, startDate, endDate, isAllTime }) {
                       </TableCell>
                       <TableCell
                         align="right"
-                        sx={{ backgroundColor: theme.palette.action.hover }}
+                        sx={{
+                          backgroundColor: theme.palette.action.hover,
+                          ...childBodySx,
+                        }}
                       >
                         {day.circuit.raceCount > 0 ? (
                           <RateChange
                             value={day.circuit.avgRateChange}
-                            size={"1.0rem"}
+                            sx={childBodySx}
                           />
                         ) : (
                           "-"
@@ -420,6 +408,9 @@ const CourseSummaryPage = () => {
     }, 500);
   };
 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Box>
       <Box
@@ -447,6 +438,11 @@ const CourseSummaryPage = () => {
               />
             }
             label="全期間"
+            sx={{
+              "& .MuiTypography-root": {
+                fontSize: { xs: "0.7rem", md: "1.0rem" },
+              },
+            }}
           />
           <Grid container spacing={2} alignItems="center">
             <Grid>
@@ -456,7 +452,10 @@ const CourseSummaryPage = () => {
                   value={startDate}
                   label="開始日"
                   onChange={handleDateChange(setStartDate)}
-                  sx={{ minWidth: 140 }}
+                  sx={{
+                    minWidth: 120,
+                    fontSize: { xs: "0.7rem", md: "1.0rem" },
+                  }}
                 >
                   {uniqueDates.map((date) => (
                     <MenuItem key={date} value={date}>
@@ -467,7 +466,9 @@ const CourseSummaryPage = () => {
               </FormControl>
             </Grid>
             <Grid>
-              <Typography>〜</Typography>
+              <Typography sx={{ fontSize: { xs: "0.7rem", md: "1.0rem" } }}>
+                〜
+              </Typography>
             </Grid>
             <Grid>
               <FormControl size="small" disabled={isAllTime}>
@@ -476,7 +477,10 @@ const CourseSummaryPage = () => {
                   value={endDate}
                   label="終了日"
                   onChange={handleDateChange(setEndDate)}
-                  sx={{ minWidth: 140 }}
+                  sx={{
+                    minWidth: 120,
+                    fontSize: { xs: "0.7rem", md: "1.0rem" },
+                  }}
                 >
                   {uniqueDates.map((date) => (
                     <MenuItem key={date} value={date}>
@@ -494,73 +498,71 @@ const CourseSummaryPage = () => {
         <TableContainer component={Paper} style={{ tableLayout: "fixed" }}>
           <StyledTable aria-label="コース別サマリーテーブル">
             <colgroup>
-              <col style={{ width: "5%" }} />
+              <col style={{ width: "4%" }} />
               <col style={{ width: "auto" }} />
+              <col style={{ width: "12%" }} />
+              <col style={{ width: "12%" }} />
               <col style={{ width: "10%" }} />
-              <col style={{ width: "14%" }} />
+              <col style={{ width: "12%" }} />
               <col style={{ width: "10%" }} />
-              <col style={{ width: "13%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "13%" }} />
+              <col style={{ width: "12%" }} />
             </colgroup>
             <TableHead>
               {/* 1行目のヘッダー（グループ名） */}
               <TableRow sx={{ backgroundColor: "background.paper" }}>
                 <TableCell
-                  sx={{ fontSize: "1.1rem" }}
+                  sx={rootHeaderSx}
                   rowSpan={2}
                   colSpan={2}
                   align="center"
                 >
                   コース名
                 </TableCell>
-                <TableCell
-                  sx={{ fontSize: "1.1rem" }}
-                  colSpan={2}
-                  align="center"
-                >
+                <TableCell sx={rootHeaderSx} colSpan={2} align="center">
                   総合
                 </TableCell>
                 <TableCell
-                  sx={{
-                    fontSize: "1.1rem",
-                    color: "text.secondary",
-                    // backgroundColor: "action.hover",
-                  }}
+                  sx={rootHeaderSubSx}
                   colSpan={2}
                   align="center"
                   className="left-solid"
                 >
                   道
                 </TableCell>
-                <TableCell
-                  sx={{
-                    fontSize: "1.1rem",
-                    color: "text.secondary",
-                    // backgroundColor: "action.hover",
-                  }}
-                  colSpan={2}
-                  align="center"
-                  //   className="left-solid"
-                >
+                <TableCell sx={rootHeaderSubSx} colSpan={2} align="center">
                   周回
                 </TableCell>
               </TableRow>
-              {/* 2行目のヘッダー（各項目のソートラベル） */}
-              <TableRow sx={{ backgroundColor: "background.paper" }}>
+              <TableRow
+                sx={{
+                  backgroundColor: "background.paper",
+                }}
+              >
                 {["all", "road", "circuit"].map((type) => (
                   <React.Fragment key={type}>
                     <TableCell
-                      style={{ padding: "6px 12px" }}
                       className={type === "road" ? "left-solid" : ""}
                       align="right"
                       sx={
                         type !== "all"
                           ? {
+                              padding: { xs: "0px 2px", md: "6px 6px" },
+                              fontSize: {
+                                xs: "0.6rem",
+                                sm: "0.7rem",
+                                md: "0.8rem",
+                              },
                               color: "text.secondary",
                               //   backgroundColor: "action.hover",
                             }
-                          : {}
+                          : {
+                              padding: { xs: "0px 2px", md: "6px 6px" },
+                              fontSize: {
+                                xs: "0.6rem",
+                                sm: "0.7rem",
+                                md: "0.8rem",
+                              },
+                            }
                       }
                     >
                       <TableSortLabel
@@ -570,19 +572,31 @@ const CourseSummaryPage = () => {
                         }
                         onClick={() => handleRequestSort(`${type}.raceCount`)}
                       >
-                        レース数
+                        {isMobile ? "race" : "レース数"}
                       </TableSortLabel>
                     </TableCell>
                     <TableCell
-                      style={{ padding: "6px 12px" }}
                       align="right"
                       sx={
                         type !== "all"
                           ? {
+                              padding: { xs: "0px 2px", sm: "6px 6px" },
+                              fontSize: {
+                                xs: "0.6rem",
+                                sm: "0.7rem",
+                                md: "0.8rem",
+                              },
                               color: "text.secondary",
                               //   backgroundColor: "action.hover",
                             }
-                          : {}
+                          : {
+                              padding: { xs: "0px 2px", sm: "6px 6px" },
+                              fontSize: {
+                                xs: "0.6rem",
+                                sm: "0.7rem",
+                                md: "0.8rem",
+                              },
+                            }
                       }
                     >
                       <TableSortLabel
@@ -594,7 +608,7 @@ const CourseSummaryPage = () => {
                           handleRequestSort(`${type}.avgRateChange`)
                         }
                       >
-                        レート(平均)
+                        {isMobile ? "avg" : "レート(平均)"}
                       </TableSortLabel>
                     </TableCell>
                   </React.Fragment>

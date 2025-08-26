@@ -25,6 +25,10 @@ import {
   Legend,
 } from "recharts";
 
+const rateSx = {
+  fontSize: "1.0rem",
+};
+
 const SummaryCard = ({ title, value, subValue }) => (
   <Paper sx={{ p: 2, height: "100%" }}>
     <Box
@@ -202,7 +206,7 @@ const DashboardLayout = () => {
                       <RateChange
                         value={race.rateChange}
                         isFixed={false}
-                        size={"14px"}
+                        sx={rateSx}
                       />
                     </Box>
                   </ListItem>
@@ -224,7 +228,7 @@ const DashboardLayout = () => {
                     <Typography variant="body2" noWrap sx={{ mr: 1 }}>
                       {c.courseName}
                     </Typography>
-                    <RateChange value={c.all.avgRateChange} size={"14px"} />
+                    <RateChange value={c.all.avgRateChange} sx={rateSx} />
                   </ListItem>
                 ))}
               </List>
@@ -247,7 +251,7 @@ const DashboardLayout = () => {
                     <Typography variant="body2" noWrap sx={{ mr: 1 }}>
                       {c.courseName}
                     </Typography>
-                    <RateChange value={c.all.avgRateChange} size={"14px"} />
+                    <RateChange value={c.all.avgRateChange} sx={rateSx} />
                   </ListItem>
                 ))}
               </List>
