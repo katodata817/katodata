@@ -26,15 +26,19 @@ import { summarizeByCourse } from "../utils/utils";
 import StyledTable from "../components/StyledTable";
 
 const rootHeaderSx = {
-  padding: { xs: "6px 6px", sm: "6px 10px" },
-  fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.0rem" },
+  padding: { xs: "6px 6px", sm: "10px 10px" },
+  fontSize: { xs: "0.7rem", sm: "0.9rem", md: "1.0rem" },
 };
 
 const rootBodySx = {
-  padding: { xs: "12px 2px", sm: "16px 16px" },
+  padding: { xs: "12px 4px", sm: "16px 12px" },
   fontSize: { xs: "0.8rem", sm: "1.0rem", md: "1.1rem" },
 };
 
+const rootRateSx = {
+  padding: { xs: "0px 6px 0px 0px", sm: "0px 10px 0px 0px" },
+  fontSize: { xs: "0.7rem", sm: "0.8rem", md: "1.0rem" },
+};
 const childHeaderSx = {
   padding: { xs: "6px 10px", sm: "6px 10px" },
   fontSize: { xs: "0.6rem", sm: "0.8rem", md: "0.9rem" },
@@ -144,10 +148,10 @@ function DailyRow({ day, isOpen, onToggle, isMobile }) {
           {day.startRate}
         </TableCell>
         <TableCell align="right" sx={rootBodySx}>
-          <RateChange value={day.rateChange} isFixed={false} sx={rootBodySx} />
-        </TableCell>
-        <TableCell align="right" sx={rootBodySx}>
           {day.endRate}
+        </TableCell>
+        <TableCell align="right" sx={rootRateSx}>
+          <RateChange value={day.rateChange} isFixed={false} sx={rootRateSx} />
         </TableCell>
       </TableRow>
 
@@ -227,13 +231,13 @@ const TopPage = () => {
       <TableContainer component={Paper} sx={{ padding: 0 }}>
         <StyledTable aria-label="日別戦績テーブル">
           <colgroup>
-            <col style={{ width: "2%" }} />
+            <col style={{ width: "4%" }} />
             <col style={{ width: "auto" }} />
+            <col style={{ width: "18%" }} />
+            <col style={{ width: "18%" }} />
             <col style={{ width: "14%" }} />
-            <col style={{ width: "14%" }} />
-            <col style={{ width: "14%" }} />
-            <col style={{ width: "14%" }} />
-            <col style={{ width: "14%" }} />
+            <col style={{ width: "12%" }} />
+            <col style={{ width: "2%" }} />
           </colgroup>
           <TableHead>
             <TableRow sx={{ backgroundColor: "background.paper" }}>
@@ -248,10 +252,7 @@ const TopPage = () => {
               <TableCell sx={rootHeaderSx} align="right">
                 {isMobile ? "開始" : "開始レート"}
               </TableCell>
-              <TableCell sx={rootHeaderSx} align="right">
-                {isMobile ? "増減" : "増減レート"}
-              </TableCell>
-              <TableCell sx={rootHeaderSx} align="right">
+              <TableCell sx={rootHeaderSx} align="center" colSpan={2}>
                 {isMobile ? "終了" : "終了レート"}
               </TableCell>
             </TableRow>

@@ -24,8 +24,8 @@ import { summarizeByDate } from "../utils/utils";
 import StyledTable from "../components/StyledTable";
 
 const rootHeaderSx = {
-  padding: { xs: "6px 6px", sm: "16px 12px" },
-  fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.0rem" },
+  padding: { xs: "6px 6px", sm: "10px 10px" },
+  fontSize: { xs: "0.7rem", sm: "0.9rem", md: "1.0rem" },
 };
 
 const rootBodySx = {
@@ -35,7 +35,7 @@ const rootBodySx = {
 
 const rootRateSx = {
   padding: { xs: "0px 6px 0px 0px", sm: "0px 10px 0px 0px" },
-  fontSize: { xs: "0.7rem", sm: "0.8rem", md: "0.9rem" },
+  fontSize: { xs: "0.7rem", sm: "0.8rem", md: "1.0rem" },
 };
 
 // 一日ごとの行コンポーネント
@@ -151,10 +151,10 @@ const DailySummaryPage = () => {
         <colgroup>
           <col style={{ width: "4%" }} />
           <col style={{ width: "auto" }} />
-          <col style={{ width: "13%" }} />
-          <col style={{ width: "15%" }} />
-          <col style={{ width: "13%" }} />
-          <col style={{ width: "10%" }} />
+          <col style={{ width: "18%" }} />
+          <col style={{ width: "18%" }} />
+          <col style={{ width: "14%" }} />
+          <col style={{ width: "12%" }} />
           <col style={{ width: "2%" }} />
         </colgroup>
         <TableHead>
