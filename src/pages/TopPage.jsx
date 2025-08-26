@@ -12,6 +12,7 @@ import {
   Paper,
   Collapse,
   IconButton,
+  useTheme,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
@@ -22,7 +23,19 @@ import raceData from "../dummyRaces.json";
 import { summarizeByDate } from "../utils/utils"; // ← 新しい関数をインポート
 import { summarizeByCourse } from "../utils/utils";
 import StyledTable from "../components/StyledTable";
-import { useTheme } from "@mui/material/styles";
+
+const largeSx = {
+  padding: { xs: "12px 2px", sm: "16px 16px" },
+  fontSize: { xs: "0.8rem", sm: "1.0rem", md: "1.1rem" },
+};
+const mediumSx = {
+  padding: { xs: "6px 6px", sm: "6px 10px" },
+  fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1.0rem" },
+};
+const smallSx = {
+  padding: { xs: "6px 10px", sm: "6px 10px" },
+  fontSize: { xs: "0.6rem", sm: "0.8rem", md: "0.9rem" },
+};
 
 const CourseResultTable = ({ courses }) => {
   const theme = useTheme();
@@ -39,20 +52,20 @@ const CourseResultTable = ({ courses }) => {
         <Table size="small">
           <colgroup>
             <col style={{ width: "auto" }} />
-            <col style={{ width: "18%" }} />
-            <col style={{ width: "18%" }} />
+            <col style={{ width: "16%" }} />
+            <col style={{ width: "20%" }} />
             <col style={{ width: "20%" }} />
           </colgroup>
           <TableHead>
             <TableRow style={{ backgroundColor: theme.palette.action.hover }}>
               <TableCell></TableCell>
-              <TableCell sx={{ fontSize: "0.9rem" }} align="right">
+              <TableCell sx={smallSx} align="right">
                 レース数
               </TableCell>
-              <TableCell sx={{ fontSize: "0.9rem" }} align="right">
+              <TableCell sx={smallSx} align="right">
                 平均順位
               </TableCell>
-              <TableCell sx={{ fontSize: "0.9rem" }} align="right">
+              <TableCell sx={smallSx} align="right">
                 平均レート
               </TableCell>
             </TableRow>
@@ -60,20 +73,15 @@ const CourseResultTable = ({ courses }) => {
           <TableBody>
             {courses.map((course) => (
               <TableRow key={course.courseName} hover>
-                <TableCell sx={{ fontSize: "1.0rem" }}>
-                  {course.courseName}
-                </TableCell>
-                <TableCell align="right" sx={{ fontSize: "1.0rem" }}>
+                <TableCell sx={mediumSx}>{course.courseName}</TableCell>
+                <TableCell align="right" sx={mediumSx}>
                   {course.all.raceCount}戦
                 </TableCell>
-                <TableCell align="right" sx={{ fontSize: "1.0rem" }}>
+                <TableCell align="right" sx={mediumSx}>
                   {course.all.avgRank.toFixed(2)}位
                 </TableCell>
-                <TableCell align="right">
-                  <RateChange
-                    value={course.all.avgRateChange}
-                    size={"1.0rem"}
-                  />
+                <TableCell sx={mediumSx} align="right">
+                  <RateChange value={course.all.avgRateChange} sx={mediumSx} />
                 </TableCell>
               </TableRow>
             ))}
@@ -110,20 +118,20 @@ function DailyRow({ day, isOpen, onToggle }) {
             {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
-        <TableCell sx={{ fontSize: "1.1rem" }}>{day.date}</TableCell>
-        <TableCell align="right" sx={{ fontSize: "1.1rem" }}>
+        <TableCell sx={largeSx}>{day.date}</TableCell>
+        <TableCell align="right" sx={largeSx}>
           {day.raceCount}戦
         </TableCell>
-        <TableCell align="right" sx={{ fontSize: "1.1rem" }}>
+        <TableCell align="right" sx={largeSx}>
           {day.avgRank.toFixed(2)}位
         </TableCell>
-        <TableCell align="right" sx={{ fontSize: "1.1rem" }}>
+        <TableCell align="right" sx={largeSx}>
           {day.startRate}
         </TableCell>
         <TableCell align="right">
-          <RateChange value={day.rateChange} isFixed={false} size={"1.1rem"} />
+          <RateChange value={day.rateChange} isFixed={false} sx={largeSx} />
         </TableCell>
-        <TableCell align="right" sx={{ fontSize: "1.1rem" }}>
+        <TableCell align="right" sx={largeSx}>
           {day.endRate}
         </TableCell>
       </TableRow>
@@ -170,6 +178,7 @@ const TopPage = () => {
     // ページを開いた時の初期値として、最新の日付（配列の最初の要素）を設定
     dailySummary.length > 0 ? dailySummary[0].date : null
   );
+
   // 開閉ボタンが押された時の処理
   const handleToggleRow = (date) => {
     // 今開いている行を、もう一度クリックしたら閉じる。違う行なら、そっちを開く。
@@ -191,34 +200,35 @@ const TopPage = () => {
   return (
     <Box>
       <RateChart races={chartData} />
+
       <TableContainer component={Paper} sx={{ padding: 0 }}>
         <StyledTable aria-label="日別戦績テーブル">
           <colgroup>
             <col style={{ width: "5%" }} />
             <col style={{ width: "auto" }} />
-            <col style={{ width: "12%" }} />
-            <col style={{ width: "12%" }} />
-            <col style={{ width: "12%" }} />
-            <col style={{ width: "12%" }} />
-            <col style={{ width: "12%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
+            <col style={{ width: "14%" }} />
           </colgroup>
           <TableHead>
             <TableRow sx={{ backgroundColor: "background.paper" }}>
               <TableCell />
-              <TableCell sx={{ fontSize: "1.1rem" }}>日付</TableCell>
-              <TableCell sx={{ fontSize: "1.1rem" }} align="right">
+              <TableCell sx={mediumSx}>日付</TableCell>
+              <TableCell sx={mediumSx} align="right">
                 レース数
               </TableCell>
-              <TableCell sx={{ fontSize: "1.1rem" }} align="right">
+              <TableCell sx={mediumSx} align="right">
                 平均順位
               </TableCell>
-              <TableCell sx={{ fontSize: "1.1rem" }} align="right">
+              <TableCell sx={mediumSx} align="right">
                 開始レート
               </TableCell>
-              <TableCell sx={{ fontSize: "1.1rem" }} align="right">
+              <TableCell sx={mediumSx} align="right">
                 増減レート
               </TableCell>
-              <TableCell sx={{ fontSize: "1.1rem" }} align="right">
+              <TableCell sx={mediumSx} align="right">
                 終了レート
               </TableCell>
             </TableRow>

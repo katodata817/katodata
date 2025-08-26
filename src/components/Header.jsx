@@ -5,8 +5,11 @@ import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 
 // アクティブな時と、通常時のスタイルを共通化
 const navButtonSx = {
-  py: 1,
-  px: 2,
+  padding: { xs: "12px 2px", sm: "10px 16px" },
+  fontSize: { xs: "0.8rem", sm: "1.0rem", md: "1.1rem" },
+  //   fontSize: "1.0rem",
+  //   py: 1,
+  //   px: 2,
   borderRadius: 2,
   color: "inherit",
   fontWeight: "normal",
@@ -26,10 +29,11 @@ const Header = () => {
     <AppBar position="sticky">
       <Toolbar>
         <Typography
-          variant="h5"
           component={RouterNavLink}
           to="/"
           sx={{
+            padding: { xs: "12px 2px", sm: "10px 16px" },
+            fontSize: { xs: "1.2rem", sm: "1.0rem", md: "1.6rem" },
             flexGrow: 1,
             color: "inherit", // 親の色を継承
             textDecoration: "none", // リンクの下線を消す
@@ -38,16 +42,10 @@ const Header = () => {
           カトデータ
         </Typography>
         <Box>
-          <Button
-            variant="h5"
-            component={RouterNavLink}
-            to="/"
-            sx={navButtonSx}
-          >
+          <Button component={RouterNavLink} to="/" sx={navButtonSx}>
             トップ
           </Button>
           <Button
-            variant="h5"
             component={RouterNavLink}
             to="/summary/course"
             sx={navButtonSx}
@@ -55,7 +53,6 @@ const Header = () => {
             コース別まとめ
           </Button>
           <Button
-            variant="h5"
             component={RouterNavLink}
             to="/summary/daily"
             sx={navButtonSx}

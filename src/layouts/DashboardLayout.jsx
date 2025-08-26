@@ -113,7 +113,7 @@ const DashboardLayout = () => {
       <Grid size={{ xs: 12, md: 2.5 }}>
         <Grid container spacing={3} direction="column">
           {/* ↓↓↓【変更点1】現在/最高レートを1枚に統合 ↓↓↓ */}
-          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
+          <Grid sx={{ display: { xs: "none", md: "block" } }}>
             <Paper sx={{ p: 2, height: "100%" }}>
               <Box
                 sx={{
@@ -166,7 +166,7 @@ const DashboardLayout = () => {
             </Paper>
           </Grid>
 
-          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
+          <Grid sx={{ display: { xs: "none", md: "block" } }}>
             <SummaryCard
               title="総レース数"
               value={`${raceData.length} 戦`}
@@ -176,7 +176,7 @@ const DashboardLayout = () => {
             />
           </Grid>
 
-          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
+          <Grid sx={{ display: { xs: "none", md: "block" } }}>
             <Paper sx={{ p: 2 }}>
               <ListCardHeader title="直近5レース" to="/summary/daily" />
               <List dense>
@@ -211,7 +211,7 @@ const DashboardLayout = () => {
             </Paper>
           </Grid>
 
-          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
+          <Grid sx={{ display: { xs: "none", md: "block" } }}>
             <Paper sx={{ p: 2 }}>
               <ListCardHeader title="コース BEST5" to="/summary/course" />
               <List dense>
@@ -231,7 +231,7 @@ const DashboardLayout = () => {
             </Paper>
           </Grid>
 
-          <Grid sx={{ display: { xs: "none", sm: "block" } }}>
+          <Grid sx={{ display: { xs: "none", md: "block" } }}>
             <Paper sx={{ p: 2 }}>
               <ListCardHeader
                 title="コース WORST5"
