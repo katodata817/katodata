@@ -144,6 +144,9 @@ const DashboardLayout = () => {
                     <Typography variant="h4" component="p">
                       {currentRate}
                     </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {lastDate ? `${lastDate}` : ""}
+                    </Typography>
                   </Grid>
                   <Grid size={6}>
                     <Box
@@ -190,7 +193,7 @@ const DashboardLayout = () => {
                     disableGutters
                     sx={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography variant="body2" noWrap sx={{ mr: 1 }}>
+                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
                       {race.course}
                     </Typography>
                     <Box
@@ -200,7 +203,7 @@ const DashboardLayout = () => {
                         flexShrink: 0,
                       }}
                     >
-                      <Typography variant="body2" sx={{ mr: 1 }}>
+                      <Typography sx={{ mr: 1, fontSize: "1.0rem" }}>
                         {race.rank}位
                       </Typography>
                       <RateChange
@@ -225,7 +228,7 @@ const DashboardLayout = () => {
                     disableGutters
                     sx={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography variant="body2" noWrap sx={{ mr: 1 }}>
+                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
                       {c.courseName}
                     </Typography>
                     <RateChange value={c.all.avgRateChange} sx={rateSx} />
@@ -248,7 +251,7 @@ const DashboardLayout = () => {
                     disableGutters
                     sx={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography variant="body2" noWrap sx={{ mr: 1 }}>
+                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
                       {c.courseName}
                     </Typography>
                     <RateChange value={c.all.avgRateChange} sx={rateSx} />
