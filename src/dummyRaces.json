@@ -10646,5 +10646,16 @@
     "rateBefore": 8452,
     "rateChange": 63,
     "rateAfter": 8515
+  },
+  {
+    "id": 969,
+    "date": "2025-11-23",
+    "type": "道",
+    "from": "ピーチビーチ",
+    "course": "ハテナしんでん",
+    "rank": 4,
+    "rateBefore": 8515,
+    "rateChange": 2,
+    "rateAfter": 8517
   }
 ]
