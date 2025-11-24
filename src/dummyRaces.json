@@ -10657,5 +10657,126 @@
     "rateBefore": 8515,
     "rateChange": 2,
     "rateAfter": 8517
+  },
+  {
+    "id": 970,
+    "date": "2025-11-24",
+    "type": "道",
+    "from": "ディノディノジャングル",
+    "course": "トロフィーシティ",
+    "rank": 2,
+    "rateBefore": 8517,
+    "rateChange": 56,
+    "rateAfter": 8573
+  },
+  {
+    "id": 971,
+    "date": "2025-11-24",
+    "type": "道",
+    "from": "トロフィーシティ",
+    "course": "ノコノコビーチ",
+    "rank": 22,
+    "rateBefore": 8573,
+    "rateChange": -66,
+    "rateAfter": 8507
+  },
+  {
+    "id": 972,
+    "date": "2025-11-24",
+    "type": "周回",
+    "from": "",
+    "course": "ヘイホーカーニバル",
+    "rank": 14,
+    "rateBefore": 8507,
+    "rateChange": -21,
+    "rateAfter": 8486
+  },
+  {
+    "id": 973,
+    "date": "2025-11-24",
+    "type": "周回",
+    "from": "",
+    "course": "サンサンさばく",
+    "rank": 13,
+    "rateBefore": 8486,
+    "rateChange": -10,
+    "rateAfter": 8476
+  },
+  {
+    "id": 974,
+    "date": "2025-11-24",
+    "type": "周回",
+    "from": "",
+    "course": "キラーシップ",
+    "rank": 14,
+    "rateBefore": 8476,
+    "rateChange": -10,
+    "rateAfter": 8466
+  },
+  {
+    "id": 975,
+    "date": "2025-11-24",
+    "type": "道",
+    "from": "キラーシップ",
+    "course": "ワリオスタジアム",
+    "rank": 17,
+    "rateBefore": 8466,
+    "rateChange": -24,
+    "rateAfter": 8442
+  },
+  {
+    "id": 976,
+    "date": "2025-11-24",
+    "type": "道",
+    "from": "ワリオスタジアム",
+    "course": "キノピオファクトリー",
+    "rank": 18,
+    "rateBefore": 8442,
+    "rateChange": -28,
+    "rateAfter": 8414
+  },
+  {
+    "id": 977,
+    "date": "2025-11-24",
+    "type": "周回",
+    "from": "",
+    "course": "どんぐりツリーハウス",
+    "rank": 10,
+    "rateBefore": 8414,
+    "rateChange": 18,
+    "rateAfter": 8432
+  },
+  {
+    "id": 978,
+    "date": "2025-11-24",
+    "type": "道",
+    "from": "どんぐりツリーハウス",
+    "course": "ホネホネツイスター",
+    "rank": 13,
+    "rateBefore": 8432,
+    "rateChange": -6,
+    "rateAfter": 8426
+  },
+  {
+    "id": 979,
+    "date": "2025-11-24",
+    "type": "周回",
+    "from": "",
+    "course": "マリオブラザーズサーキット",
+    "rank": 11,
+    "rateBefore": 8426,
+    "rateChange": 14,
+    "rateAfter": 8440
+  },
+  {
+    "id": 980,
+    "date": "2025-11-24",
+    "type": "道",
+    "from": "マリオブラザーズサーキット",
+    "course": "シュポポコースター",
+    "rank": 9,
+    "rateBefore": 8440,
+    "rateChange": 22,
+    "rateAfter": 8462
   }
 ]
