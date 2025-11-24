@@ -16,6 +16,7 @@ import raceData from "../dummyRaces.json";
 import { summarizeByCourse } from "../utils/utils";
 import RateChange from "../components/RateChange";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {
   PieChart,
   Pie,
@@ -30,52 +31,71 @@ const rateSx = {
 };
 
 const SummaryCard = ({ title, value, subValue }) => (
-  <Paper sx={{ p: 2, height: "100%" }}>
+  <Paper sx={{ p: 0, height: "100%" }}>
     <Box
       sx={{
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        mb: 1,
+        mb: 0,
       }}
     >
-      <Typography variant="subtitle1" color="info.main">
+      <Typography
+        variant="subtitle1"
+        color="info.main"
+        sx={{
+          fontWeight: "bold",
+          px: 2,
+          py: 1,
+        }}
+      >
         {title}
       </Typography>
     </Box>
-    <Typography variant="h4" component="p">
-      {value}
-    </Typography>
-    {subValue && (
-      <Typography variant="body2" color="text.secondary">
-        {subValue}
+    <Paper sx={{ px: 2, pb: 1 }}>
+      <Typography variant="h4" component="p">
+        {value}
       </Typography>
-    )}
+      {subValue && (
+        <Typography variant="body2" color="text.secondary">
+          {subValue}
+        </Typography>
+      )}
+    </Paper>
   </Paper>
 );
 
 // リスト形式のカードのヘッダー部分を共通化したコンポーネント
 const ListCardHeader = ({ title, to }) => (
   <Box
+    component={RouterLink}
+    to={to}
     sx={{
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
-      mb: 1,
+      px: 2,
+      py: 1,
+      backgroundColor: "action.hover",
+      "&:hover": {
+        bgcolor: "action.selected",
+      },
     }}
   >
     <Typography
-      component={RouterLink}
-      to={to}
       variant="subtitle1"
       color="info.main"
-      sx={{ textDecoration: "underline" }}
+      sx={{
+        // fontSize: "1.2rem",
+        fontWeight: "bold",
+      }}
     >
       {title}
     </Typography>
-    <IconButton component={RouterLink} sx={{ p: 0 }} to={to}>
-      <ArrowCircleRightIcon />
-    </IconButton>
+    <ArrowForwardIcon sx={{ color: "#ffffff" }} />
+    {/* <IconButton component={RouterLink} sx={{ p: 0 }}>
+
+    </IconButton> */}
   </Box>
 );
 
@@ -118,13 +138,13 @@ const DashboardLayout = () => {
   const PIE_COLORS = ["#0088FE", "#FF8042"];
 
   return (
-    <Grid container spacing={6}>
+    <Grid container spacing={3}>
       {/* 左カラム (常に表示される) */}
       <Grid size={{ xs: 12, md: 2.5 }}>
         <Grid container spacing={3} direction="column">
           {/* ↓↓↓【変更点1】現在/最高レートを1枚に統合 ↓↓↓ */}
           <Grid sx={{ display: { xs: "none", md: "block" } }}>
-            <Paper sx={{ p: 2, height: "100%" }}>
+            <Paper sx={{ p: 0, height: "100%" }}>
               <Box
                 sx={{
                   display: "flex",
@@ -133,24 +153,36 @@ const DashboardLayout = () => {
                   mb: 0,
                 }}
               >
-                <Grid container spacing={8} alignItems="top">
+                <Grid container spacing={4} alignItems="top">
                   <Grid size={6}>
                     <Box
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        mb: 1,
+                        mb: 0,
                       }}
                     >
-                      <Typography variant="subtitle1" color="info.main">
+                      <Typography
+                        variant="subtitle1"
+                        color="info.main"
+                        sx={{
+                          fontWeight: "bold",
+                          px: 2,
+                          py: 1,
+                        }}
+                      >
                         現在レート
                       </Typography>
                     </Box>
-                    <Typography variant="h4" component="p">
+                    <Typography variant="h4" component="p" sx={{ px: 2 }}>
                       {currentRate}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ px: 2, pb: 1 }}
+                    >
                       {lastDate ? `${lastDate}` : ""}
                     </Typography>
                   </Grid>
@@ -160,17 +192,29 @@ const DashboardLayout = () => {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center",
-                        mb: 1,
+                        mb: 0,
                       }}
                     >
-                      <Typography variant="subtitle1" color="info.main">
+                      <Typography
+                        variant="subtitle1"
+                        color="info.main"
+                        sx={{
+                          fontWeight: "bold",
+                          px: 2,
+                          py: 1,
+                        }}
+                      >
                         最高レート
                       </Typography>
                     </Box>
-                    <Typography variant="h4" component="p">
+                    <Typography variant="h4" component="p" sx={{ px: 2 }}>
                       {peakRateData?.rateAfter}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ px: 2 }}
+                    >
                       {peakRateData ? `${peakRateData.date}` : ""}
                     </Typography>
                   </Grid>
@@ -190,80 +234,81 @@ const DashboardLayout = () => {
           </Grid>
 
           <Grid sx={{ display: { xs: "none", md: "block" } }}>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 0 }}>
               <ListCardHeader title="得意コース" to="/summary/course" />
-              <List dense>
-                {得意コース.map((c) => (
-                  <ListItem
-                    key={c.courseName}
-                    disableGutters
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
-                      {c.courseName}
-                    </Typography>
-                    <RateChange value={c.all.avgRateChange} sx={rateSx} />
-                  </ListItem>
-                ))}
-              </List>
+              <Paper sx={{ px: 2 }}>
+                <List dense>
+                  {得意コース.map((c) => (
+                    <ListItem
+                      key={c.courseName}
+                      disableGutters
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
+                        {c.courseName}
+                      </Typography>
+                      <RateChange value={c.all.avgRateChange} sx={rateSx} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
             </Paper>
           </Grid>
 
           <Grid sx={{ display: { xs: "none", md: "block" } }}>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 0 }}>
               <ListCardHeader
                 title="苦手コース"
                 to="/summary/course?order=asc"
               />
-              <List dense>
-                {苦手コース.map((c) => (
-                  <ListItem
-                    key={c.courseName}
-                    disableGutters
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
-                      {c.courseName}
-                    </Typography>
-                    <RateChange value={c.all.avgRateChange} sx={rateSx} />
-                  </ListItem>
-                ))}
-              </List>
+              <Paper sx={{ px: 2 }}>
+                <List dense>
+                  {苦手コース.map((c) => (
+                    <ListItem
+                      key={c.courseName}
+                      disableGutters
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
+                        {c.courseName}
+                      </Typography>
+                      <RateChange value={c.all.avgRateChange} sx={rateSx} />
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
             </Paper>
           </Grid>
 
           <Grid sx={{ display: { xs: "none", md: "block" } }}>
-            <Paper sx={{ p: 2 }}>
+            <Paper sx={{ p: 0 }}>
               <ListCardHeader title="レース履歴" to="/summary/daily" />
-              <List dense>
-                {recent5Races.map((race) => (
-                  <ListItem
-                    key={race.id}
-                    disableGutters
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
-                      {race.course}
-                    </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        flexShrink: 0,
-                      }}
+              <Paper sx={{ px: 2 }}>
+                <List dense>
+                  {recent5Races.map((race) => (
+                    <ListItem
+                      key={race.id}
+                      disableGutters
+                      sx={{ display: "flex", justifyContent: "space-between" }}
                     >
-                      <Typography sx={{ mr: 1, fontSize: "1.0rem" }}>
-                        {race.rank}位
+                      <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
+                        {race.course}
                       </Typography>
-                      <RateChange
-                        value={race.rateChange}
-                        isFixed={false}
-                        sx={rateSx}
-                      />
-                    </Box>
-                  </ListItem>
-                ))}
-              </List>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          flexShrink: 0,
+                        }}
+                      >
+                        <Typography sx={{ fontSize: "1.0rem" }}>
+                          {race.rank}位
+                        </Typography>
+                      </Box>
+                    </ListItem>
+                  ))}
+                </List>
+              </Paper>
             </Paper>
           </Grid>
         </Grid>
