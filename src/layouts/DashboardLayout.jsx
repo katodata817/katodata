@@ -64,10 +64,16 @@ const ListCardHeader = ({ title, to }) => (
       mb: 1,
     }}
   >
-    <Typography variant="subtitle1" color="info.main">
+    <Typography
+      component={RouterLink}
+      to={to}
+      variant="subtitle1"
+      color="info.main"
+      sx={{ textDecoration: "underline" }}
+    >
       {title}
     </Typography>
-    <IconButton component={RouterLink} to={to} sx={{ p: 0 }}>
+    <IconButton component={RouterLink} sx={{ p: 0 }} to={to}>
       <ArrowCircleRightIcon />
     </IconButton>
   </Box>
@@ -112,7 +118,7 @@ const DashboardLayout = () => {
   const PIE_COLORS = ["#0088FE", "#FF8042"];
 
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={6}>
       {/* 左カラム (常に表示される) */}
       <Grid size={{ xs: 12, md: 2.5 }}>
         <Grid container spacing={3} direction="column">
@@ -185,7 +191,50 @@ const DashboardLayout = () => {
 
           <Grid sx={{ display: { xs: "none", md: "block" } }}>
             <Paper sx={{ p: 2 }}>
-              <ListCardHeader title="直近5レース" to="/summary/daily" />
+              <ListCardHeader title="得意コース" to="/summary/course" />
+              <List dense>
+                {得意コース.map((c) => (
+                  <ListItem
+                    key={c.courseName}
+                    disableGutters
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
+                      {c.courseName}
+                    </Typography>
+                    <RateChange value={c.all.avgRateChange} sx={rateSx} />
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          </Grid>
+
+          <Grid sx={{ display: { xs: "none", md: "block" } }}>
+            <Paper sx={{ p: 2 }}>
+              <ListCardHeader
+                title="苦手コース"
+                to="/summary/course?order=asc"
+              />
+              <List dense>
+                {苦手コース.map((c) => (
+                  <ListItem
+                    key={c.courseName}
+                    disableGutters
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
+                      {c.courseName}
+                    </Typography>
+                    <RateChange value={c.all.avgRateChange} sx={rateSx} />
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
+          </Grid>
+
+          <Grid sx={{ display: { xs: "none", md: "block" } }}>
+            <Paper sx={{ p: 2 }}>
+              <ListCardHeader title="レース履歴" to="/summary/daily" />
               <List dense>
                 {recent5Races.map((race) => (
                   <ListItem
@@ -212,49 +261,6 @@ const DashboardLayout = () => {
                         sx={rateSx}
                       />
                     </Box>
-                  </ListItem>
-                ))}
-              </List>
-            </Paper>
-          </Grid>
-
-          <Grid sx={{ display: { xs: "none", md: "block" } }}>
-            <Paper sx={{ p: 2 }}>
-              <ListCardHeader title="コース BEST5" to="/summary/course" />
-              <List dense>
-                {得意コース.map((c) => (
-                  <ListItem
-                    key={c.courseName}
-                    disableGutters
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
-                      {c.courseName}
-                    </Typography>
-                    <RateChange value={c.all.avgRateChange} sx={rateSx} />
-                  </ListItem>
-                ))}
-              </List>
-            </Paper>
-          </Grid>
-
-          <Grid sx={{ display: { xs: "none", md: "block" } }}>
-            <Paper sx={{ p: 2 }}>
-              <ListCardHeader
-                title="コース WORST5"
-                to="/summary/course?order=asc"
-              />
-              <List dense>
-                {苦手コース.map((c) => (
-                  <ListItem
-                    key={c.courseName}
-                    disableGutters
-                    sx={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Typography noWrap sx={{ mr: 1, fontSize: "1.0rem" }}>
-                      {c.courseName}
-                    </Typography>
-                    <RateChange value={c.all.avgRateChange} sx={rateSx} />
                   </ListItem>
                 ))}
               </List>

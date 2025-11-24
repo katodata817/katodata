@@ -48,7 +48,7 @@ const RaceTable = ({ races }) => {
   );
   const theme = useTheme();
   if (!races || races.length === 0) {
-    return <p>表示するレースデータがありません。</p>;
+    return <p></p>;
   }
 
   return (
