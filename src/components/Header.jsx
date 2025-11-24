@@ -34,13 +34,13 @@ const Header = () => {
           sx={{
             padding: { xs: "12px 2px", sm: "10px 16px" },
             fontSize: { xs: "1.2rem", sm: "1.0rem", md: "1.6rem" },
-            flexGrow: 1,
             color: "inherit", // 親の色を継承
             textDecoration: "none", // リンクの下線を消す
           }}
         >
           カトデータ
         </Typography>
+        <Box sx={{ flexGrow: 1 }} />
         <Box>
           <Button component={RouterNavLink} to="/" sx={navButtonSx}>
             トップ
@@ -59,6 +59,9 @@ const Header = () => {
           >
             レース履歴
           </Button>
+          {/* <Button component={RouterNavLink} to="/other" sx={navButtonSx}>
+            その他データ
+          </Button> */}
         </Box>
       </Toolbar>
     </AppBar>

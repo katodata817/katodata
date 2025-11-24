@@ -199,10 +199,13 @@ function DailyRow({ day, isOpen, onToggle, isMobile }) {
 
 const TopPage = () => {
   const dailySummary = useMemo(() => summarizeByDate(raceData), []);
-  const [openRowDate, setOpenRowDate] = useState(
-    // ページを開いた時の初期値として、最新の日付（配列の最初の要素）を設定
-    dailySummary.length > 0 ? dailySummary[0].date : null
-  );
+
+  // ページを開いた時の初期値として、最新の日付（配列の最初の要素）を設定
+  //   const [openRowDate, setOpenRowDate] = useState(
+  //     dailySummary.length > 0 ? dailySummary[0].date : null
+  //   );
+
+  const [openRowDate, setOpenRowDate] = useState(null);
 
   // 開閉ボタンが押された時の処理
   const handleToggleRow = (date) => {
