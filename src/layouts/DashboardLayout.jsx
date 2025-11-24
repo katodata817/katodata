@@ -70,6 +70,7 @@ const ListCardHeader = ({ title, to }) => (
   <Box
     component={RouterLink}
     to={to}
+    color="info.main"
     sx={{
       display: "flex",
       justifyContent: "space-between",
@@ -77,14 +78,15 @@ const ListCardHeader = ({ title, to }) => (
       px: 2,
       py: 1,
       backgroundColor: "action.hover",
+
       "&:hover": {
         bgcolor: "action.selected",
+        color: "#d1b474",
       },
     }}
   >
     <Typography
       variant="subtitle1"
-      color="info.main"
       sx={{
         // fontSize: "1.2rem",
         fontWeight: "bold",
@@ -92,10 +94,7 @@ const ListCardHeader = ({ title, to }) => (
     >
       {title}
     </Typography>
-    <ArrowForwardIcon sx={{ color: "#ffffff" }} />
-    {/* <IconButton component={RouterLink} sx={{ p: 0 }}>
-
-    </IconButton> */}
+    <ArrowForwardIcon />
   </Box>
 );
 
