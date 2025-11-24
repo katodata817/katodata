@@ -201,11 +201,11 @@ const TopPage = () => {
   const dailySummary = useMemo(() => summarizeByDate(raceData), []);
 
   // ページを開いた時の初期値として、最新の日付（配列の最初の要素）を設定
-  //   const [openRowDate, setOpenRowDate] = useState(
-  //     dailySummary.length > 0 ? dailySummary[0].date : null
-  //   );
+  const [openRowDate, setOpenRowDate] = useState(
+    dailySummary.length > 0 ? dailySummary[0].date : null
+  );
 
-  const [openRowDate, setOpenRowDate] = useState(null);
+  //   const [openRowDate, setOpenRowDate] = useState(null);
 
   // 開閉ボタンが押された時の処理
   const handleToggleRow = (date) => {
