@@ -258,6 +258,7 @@ const ComparisonChart = () => {
               strokeWidth={userName === "加藤純一" ? 4 : 1}
               dot={false}
               connectNulls={true}
+              isAnimationActive={false}
             />
           ))}
           <Legend />
