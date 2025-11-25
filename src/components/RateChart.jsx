@@ -155,7 +155,7 @@ const RateChart = ({ races }) => {
   const maxId = races.length > 0 ? races[races.length - 1].id : 0;
 
   return (
-    <Paper sx={{ p: 2, mb: 4 }}>
+    <Paper sx={{ py: 2, mb: 4 }}>
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={chartData}

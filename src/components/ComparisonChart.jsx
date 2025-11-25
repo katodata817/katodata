@@ -264,17 +264,29 @@ const ComparisonChart = () => {
   };
 
   return (
-    <Paper sx={{ p: 2, height: 500 }}>
-      {/* <Typography variant="h6">レート推移比較</Typography> */}
+    <Paper sx={{ py: 2, height: 500 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 1,
+          ml: 2,
+        }}
+      >
+        <Typography variant="subtitle1" color="info.main">
+          レート比較
+        </Typography>
+      </Box>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart
           data={chartData}
-          margin={{ top: 20, right: 30, left: 0, bottom: 20 }}
+          margin={{ top: 10, right: 30, left: 0, bottom: 30 }}
         >
           <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
           <XAxis
             dataKey="date"
-            tick={{ fontSize: 16, fill: theme.palette.text.primary }}
+            tick={{ fontSize: 14, fill: theme.palette.text.primary }}
             tickFormatter={(dateStr) =>
               new Date(dateStr).toLocaleDateString("ja-JP", {
                 month: "numeric",
@@ -283,12 +295,11 @@ const ComparisonChart = () => {
             }
             height={60}
             dy={10}
-            // interval={4} // 4つ飛ばし（＝5日ごと）にラベルを表示
           />
           <YAxis
             domain={yAxisTicks.domain}
             ticks={yAxisTicks.ticks}
-            tick={{ fontSize: 16, fill: theme.palette.text.primary }}
+            tick={{ fontSize: 14, fill: theme.palette.text.primary }}
           />
           <Tooltip
             content={<CustomTooltip />}
