@@ -61,9 +61,9 @@ const Header = () => {
           >
             レース履歴
           </Button>
-          {/* <Button component={RouterNavLink} to="/other" sx={navButtonSx}>
+          <Button component={RouterNavLink} to="/other" sx={navButtonSx}>
             その他データ
-          </Button> */}
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>

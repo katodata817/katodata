@@ -1,0 +1,68 @@
+[
+  {
+    "userName": "たいじ",
+    "date": "2025-07-29",
+    "finalRate": 8399,
+    "rateChange": 0
+  },
+  {
+    "userName": "たいじ",
+    "date": "2025-07-30",
+    "finalRate": 8648,
+    "rateChange": 249
+  },
+  {
+    "userName": "たいじ",
+    "date": "2025-08-05",
+    "finalRate": 8540,
+    "rateChange": -108
+  },
+  {
+    "userName": "たいじ",
+    "date": "2025-08-12",
+    "finalRate": 8626,
+    "rateChange": 86
+  },
+  {
+    "userName": "たいじ",
+    "date": "2025-08-21",
+    "finalRate": 8807,
+    "rateChange": 181
+  },
+    {
+    "userName": "たいじ",
+    "date": "2025-08-29",
+    "finalRate": 8652,
+    "rateChange": -155
+  },
+    {
+    "userName": "たいじ",
+    "date": "2025-11-24",
+    "finalRate": 8706,
+    "rateChange": 54
+  },
+    {
+    "userName": "バトラ",
+    "date": "2025-07-29",
+    "finalRate": 8308,
+    "rateChange": 0
+  },
+  {
+    "userName": "バトラ",
+    "date": "2025-07-31",
+    "finalRate": 8116,
+    "rateChange": -192
+  },
+  {
+    "userName": "バトラ",
+    "date": "2025-08-27",
+    "finalRate": 8061,
+    "rateChange": -55
+  },
+    {
+    "userName": "バトラ",
+    "date": "2025-11-24",
+    "finalRate": 8246,
+    "rateChange": 185
+  }
+]

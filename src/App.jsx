@@ -13,6 +13,8 @@ import TopPage from "./pages/TopPage";
 import DailySummaryPage from "./pages/DailySummaryPage";
 import CourseSummaryPage from "./pages/CourseSummaryPage";
 import ScrollToTop from "./components/ScrollToTop";
+import OtherDataPage from "./pages/OtherDataPage";
+
 const shades = {
   primary: {
     100: "#cccccc",
@@ -108,6 +110,7 @@ function App() {
                 <Route index element={<TopPage />} />
                 <Route path="/summary/daily" element={<DailySummaryPage />} />
                 <Route path="/summary/course" element={<CourseSummaryPage />} />
+                <Route path="other" element={<OtherDataPage />} />
               </Route>
             </Routes>
           </Container>
