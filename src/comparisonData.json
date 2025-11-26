@@ -59,10 +59,16 @@
     "finalRate": 8061,
     "rateChange": -55
   },
-    {
+{
     "userName": "バトラ",
     "date": "2025-11-24",
     "finalRate": 8246,
     "rateChange": 185
+  },
+    {
+    "userName": "バトラ",
+    "date": "2025-11-25",
+    "finalRate": 8067,
+    "rateChange": -179
   }
 ]
