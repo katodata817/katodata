@@ -11482,5 +11482,203 @@
     "rateBefore": 8444,
     "rateChange": -59,
     "rateAfter": 8385
+  },
+  {
+    "id": 1045,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "プクプクフォールズ",
+    "course": "ロゼッタてんもんだい",
+    "rank": 2,
+    "rateBefore": 8385,
+    "rateChange": 13,
+    "rateAfter": 8398
+  },
+  {
+    "id": 1046,
+    "date": "2025-11-26",
+    "type": "周回",
+    "from": "",
+    "course": "ディノディノジャングル",
+    "rank": 2,
+    "rateBefore": 8398,
+    "rateChange": 14,
+    "rateAfter": 8412
+  },
+  {
+    "id": 1047,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "リバーサイドサファリ",
+    "course": "プクプクフォールズ",
+    "rank": 4,
+    "rateBefore": 8412,
+    "rateChange": 6,
+    "rateAfter": 8418
+  },
+  {
+    "id": 1048,
+    "date": "2025-11-26",
+    "type": "周回",
+    "from": "",
+    "course": "マリオブラザーズサーキット",
+    "rank": 4,
+    "rateBefore": 8418,
+    "rateChange": 3,
+    "rateAfter": 8421
+  },
+  {
+    "id": 1049,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "マリオブラザーズサーキット",
+    "course": "トロフィーシティ",
+    "rank": 1,
+    "rateBefore": 8421,
+    "rateChange": 29,
+    "rateAfter": 8450
+  },
+  {
+    "id": 1050,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "トロフィーシティ",
+    "course": "ワリオスタジアム",
+    "rank": 3,
+    "rateBefore": 8450,
+    "rateChange": 14,
+    "rateAfter": 8464
+  },
+  {
+    "id": 1051,
+    "date": "2025-11-26",
+    "type": "周回",
+    "from": "",
+    "course": "どんぐりツリーハウス",
+    "rank": 2,
+    "rateBefore": 8464,
+    "rateChange": 18,
+    "rateAfter": 8482
+  },
+  {
+    "id": 1052,
+    "date": "2025-11-26",
+    "type": "周回",
+    "from": "",
+    "course": "アイスビルディング",
+    "rank": 9,
+    "rateBefore": 8482,
+    "rateChange": -36,
+    "rateAfter": 8446
+  },
+  {
+    "id": 1053,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "アイスビルディング",
+    "course": "ロゼッタてんもんだい",
+    "rank": 9,
+    "rateBefore": 8446,
+    "rateChange": -17,
+    "rateAfter": 8429
+  },
+  {
+    "id": 1054,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "ワリオシップ",
+    "course": "ピーチビーチ",
+    "rank": 17,
+    "rateBefore": 8429,
+    "rateChange": -52,
+    "rateAfter": 8377
+  },
+  {
+    "id": 1055,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "ピーチビーチ",
+    "course": "リバーサイドサファリ",
+    "rank": 11,
+    "rateBefore": 8377,
+    "rateChange": 3,
+    "rateAfter": 8380
+  },
+  {
+    "id": 1056,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "リバーサイドサファリ",
+    "course": "ソルティータウン",
+    "rank": 15,
+    "rateBefore": 8380,
+    "rateChange": -27,
+    "rateAfter": 8353
+  },
+  {
+    "id": 1057,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "ソルティータウン",
+    "course": "ハテナしんでん",
+    "rank": 3,
+    "rateBefore": 8353,
+    "rateChange": 54,
+    "rateAfter": 8407
+  },
+  {
+    "id": 1058,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "ハテナしんでん",
+    "course": "ディノディノジャングル",
+    "rank": 4,
+    "rateBefore": 8407,
+    "rateChange": 45,
+    "rateAfter": 8452
+  },
+  {
+    "id": 1059,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "ディノディノジャングル",
+    "course": "ノコノコビーチ",
+    "rank": 19,
+    "rateBefore": 8452,
+    "rateChange": -67,
+    "rateAfter": 8385
+  },
+  {
+    "id": 1060,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "ノコノコビーチ",
+    "course": "DKうちゅうセンター",
+    "rank": 3,
+    "rateBefore": 8385,
+    "rateChange": 56,
+    "rateAfter": 8441
+  },
+  {
+    "id": 1061,
+    "date": "2025-11-26",
+    "type": "道",
+    "from": "DKうちゅうセンター",
+    "course": "マリオブラザーズサーキット",
+    "rank": 21,
+    "rateBefore": 8441,
+    "rateChange": -59,
+    "rateAfter": 8382
+  },
+  {
+    "id": 1062,
+    "date": "2025-11-26",
+    "type": "周回",
+    "from": "",
+    "course": "キラーシップ",
+    "rank": 5,
+    "rateBefore": 8382,
+    "rateChange": 43,
+    "rateAfter": 8425
   }
 ]
