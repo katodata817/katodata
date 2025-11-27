@@ -42,6 +42,12 @@
     "rateChange": 54
   },
     {
+    "userName": "たいじ",
+    "date": "2025-11-27",
+    "finalRate": 8631,
+    "rateChange": -75
+  },
+    {
     "userName": "バトラ",
     "date": "2025-07-29",
     "finalRate": 8308,
@@ -70,5 +76,11 @@
     "date": "2025-11-25",
     "finalRate": 8067,
     "rateChange": -179
+  },
+      {
+    "userName": "バトラ",
+    "date": "2025-11-26",
+    "finalRate": 8231,
+    "rateChange": 164
   }
 ]
